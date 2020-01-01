@@ -25,6 +25,6 @@ login_manager.init_app(app)
 
 from FlaskApp import routes
 
-
-if __name__ == '__main__':
-    app.run()
+#
+# if __name__ == '__main__':
+#     app.run()
