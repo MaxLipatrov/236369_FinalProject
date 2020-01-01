@@ -25,12 +25,12 @@ jwt = JWTManager(app)
 geolocator = Nominatim(user_agent="FlaskApp")
 
 login_manager = LoginManager()
-login_manager.session_protection = 'strong'
+# login_manager.session_protection = 'strong'
 login_manager.login_view = 'login'
-login_manager.init_app(app)
+# login_manager.init_app(app)
 # login_manager = LoginManager(app)
 # login_manager.login_view = 'login'
-# login_manager.login_message_category = 'info'
+login_manager.login_message_category = 'info'
 
 # neta = User(user_name='Neta', email='neta@gmail.com', about='I am TA!', password='12345', image=b'12345')
 # db.session.add(neta)

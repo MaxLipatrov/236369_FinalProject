@@ -73,11 +73,11 @@ def login():
 # @app.route('/login')
 # def login():
 #     name, passw = 'Neta', '12345'
-#     user = User.query.filter_by(user_name=name).first()
-#     if user is not None and user.verify_password(passw):
-#         login_user(user)
-#         return redirect(url_for('secret'))
-#     return 'Invalid username or password'
+#     # user = User.query.filter_by(user_name=name).first()
+#     # if user is not None and user.verify_password(passw):
+#     #     login_user(user)
+#     return redirect(url_for('secret'))
+#     # return 'Invalid username or password'
 
 
 @app.route("/signup", methods=['POST'])
@@ -86,8 +86,7 @@ def register():
         abort(400)
     data = request.get_json()
 
-    if not data or 'password' not in data or 'username' not in data or 'first_name' not in data \
-            or 'last_name' not in data or 'gender' not in data or 'birth_date' not in data or 'email' not in data:
+    if not data or 'password' not in data or 'username' not in data or 'email' not in data:
         abort(400)
     check_user = User.query.filter_by(email=data['email']).first()
     if check_user:
@@ -98,7 +97,8 @@ def register():
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
     user = User(user_name=data['username'],
                 email=data['email'],
-                password_hash=hashed_password)
+                password_hash=hashed_password,
+                about = data ["about"])
     db.session.add(user)
     db.session.commit()
     return 'Created'

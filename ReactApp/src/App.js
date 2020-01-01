@@ -9,9 +9,17 @@ import Profile from './Component/Profile'
 import {Redirect} from "react-router-dom";
 
 
+// function isLoggedIn() {
+//   return !!localStorage.usertoken;
+// }
+
 function isLoggedIn() {
-  return !!localStorage.usertoken;
+  if (localStorage.usertoken) {
+    return true
+  }
+  return false
 }
+
 
 class App extends Component {
   render() {
@@ -23,9 +31,9 @@ class App extends Component {
           <div className="container">
             <Route exact path="/register" render={(props) => (
                 !isLoggedIn() ? (
-                    <Register {...props} />) : (<Redirect to="http://127.0.0.1:5000/profile"/> )
+                    <Register {...props} />) : (<Redirect to="/profile"/> )
             )}/>
-            <Route exact path="http://127.0.0.1:5000/login" render={(props) => (
+            <Route exact path="/login" render={(props) => (
                 !isLoggedIn() ? (
                     <Login {...props} />) : (<Redirect to="/profile"/> )
             )}/>
@@ -33,7 +41,7 @@ class App extends Component {
                 isLoggedIn() ? (
                     <Profile {...props} />) : (<Redirect to="/login"/> )
             )}/>
-            <Route exact path="http://127.0.0.1:5000/profile/:id" render={(props) => (
+            <Route exact path="/profile/:id" render={(props) => (
                 isLoggedIn() ? (
                     <Profile {...props} />) : (<Redirect to="/login"/> )
             )}/>
