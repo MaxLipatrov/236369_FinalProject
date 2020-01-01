@@ -8,17 +8,18 @@ export const register = newUser => {
   return axios
     .post('http://127.0.0.1:5000/user/new', {
       username: newUser.username,
-      first_name: newUser.first_name,
-      last_name: newUser.last_name,
-      gender: newUser.gender,
-      birth_date: newUser.birth_date,
+      // first_name: newUser.first_name,
+      // last_name: newUser.last_name,
+      // gender: newUser.gender,
+      // birth_date: newUser.birth_date,
       email: newUser.email,
-      password: newUser.password
+      password: newUser.password,
+      about : newUser.about
     })
     .then(response => {
         return response.data
     })
-}
+};
 
 
 const validEmailRegex =
@@ -37,19 +38,21 @@ class Register extends Component {
     super()
     this.state = {
       username: '',
-      first_name: '',
-      last_name: '',
-      gender: '',
-      birth_date: new Date(),
+      // first_name: '',
+      // last_name: '',
+      // gender: '',
+      // birth_date: new Date(),
       email: '',
       password: '',
+      about :'',
       errors: {
           username: '',
           email: '',
           password: '',
-          first_name: '',
-          last_name: '',
-          gender: 'Please choose your gender',
+          // first_name: '',
+          // last_name: '',
+          // gender: 'Please choose your gender',
+          about : '',
       },
       user_taken: 0,
       email_taken: 0,
@@ -60,11 +63,11 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleChange = date => {
-    this.setState({
-      birth_date: date
-    });
-  };
+  // handleChange = date => {
+  //   this.setState({
+  //     birth_date: date
+  //   });
+  // };
   onChange(e) {
       //  e.preventDefault()
         let errors = this.state.errors;
@@ -79,9 +82,9 @@ class Register extends Component {
                     ? 'Username is not valid!'
                     : '';
                 break;
-            case 'gender':
-                errors.gender='';
-                break;
+            // case 'gender':
+            //     errors.gender='';
+            //     break;
             case 'email':
                 this.setState({email_taken: 0});
                 errors.email =
@@ -95,38 +98,44 @@ class Register extends Component {
                     ? 'Password is not valid!'
                     : '';
                 break;
-                case 'first_name':
-                errors.first_name =
-                  value.length > 20
-                    ? 'First name is too long'
-                    : '';
-                break;
-                case 'last_name':
-                errors.last_name =
-                  value.length > 20
-                    ? 'Last name is too long'
-                    : '';
-                break;
+                // case 'first_name':
+                // errors.first_name =
+                //   value.length > 20
+                //     ? 'First name is too long'
+                //     : '';
+                // break;
+                // case 'last_name':
+                // errors.last_name =
+                //   value.length > 20
+                //     ? 'Last name is too long'
+                //     : '';
+                // break;
+            case 'about':
+                errors.about =
+                    value.length>250
+                    ? 'You wrote too much'
+                        :"";
               default:
                 break;
         }
         this.setState({errors, [name]: value});
   }
   onSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     this.setState({invalid: 0});
     this.setState({user_taken: 0});
     this.setState({email_taken: 0});
 
     const newUser = {
       username: this.state.username,
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      gender: this.state.gender,
-      birth_date: this.state.birth_date,
+      // first_name: this.state.first_name,
+      // last_name: this.state.last_name,
+      // gender: this.state.gender,
+      // birth_date: this.state.birth_date,
       email: this.state.email,
-      password: this.state.password
-    }
+      password: this.state.password,
+      about: this.state.about
+    };
 
      if (validateForm(this.state.errors)) {
          register(newUser).then(res => {
@@ -174,52 +183,52 @@ class Register extends Component {
                 {this.state.user_taken > 0 &&
                 <span className='error'>This username is taken</span>}
               </div>
-              <div className="form-group">
-                <label htmlFor="name">First name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="first_name"
-                  placeholder="Enter your first name"
-                  value={this.state.first_name}
-                  onChange={this.onChange}
-                  noValidate
-                />
-                {this.state.errors.first_name.length > 0 &&
-                <span className='error'>{this.state.errors.first_name}</span>}
-              </div>
-              <div className="form-group">
-                <label htmlFor="name">Last name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="last_name"
-                  placeholder="Enter your last name"
-                  value={this.state.last_name}
-                  onChange={this.onChange}
-                  noValidate
-                />
-                 {this.state.errors.last_name.length > 0 &&
-                <span className='error'>{this.state.errors.last_name}</span>}
-              </div>
-              <div className="form-group">
-                <label htmlFor="name">Gender</label><br></br>
-                <input type="radio" name="gender" value="Male" onChange={this.onChange}/> Male<br></br>
-                <input type="radio" name="gender" value="Female" onChange={this.onChange}/> Female<br></br>
-                <input type="radio" name="gender" value="other" onChange={this.onChange}/> Other
-              </div>
-                 {this.state.errors.gender.length > 0 &&
-                <span className='error'>{this.state.errors.gender}</span>}
-              <div className="form-group">
-                  <label htmlFor="name">Birth date</label><br></br>
-                <DatePicker
-                 name="birth_date"
-                 selected={this.state.birth_date}
-                 onChange={this.handleChange}
-                 dateFormat="dd/MM/yyyy"
-                 maxDate={new Date()}
-                />
-              </div>
+              {/*<div className="form-group">*/}
+                {/*<label htmlFor="name">First name</label>*/}
+                {/*<input*/}
+                  {/*type="text"*/}
+                  {/*className="form-control"*/}
+                  {/*name="first_name"*/}
+                  {/*placeholder="Enter your first name"*/}
+                  {/*value={this.state.first_name}*/}
+                  {/*onChange={this.onChange}*/}
+                  {/*noValidate*/}
+                {/*/>*/}
+                {/*{this.state.errors.first_name.length > 0 &&*/}
+                {/*<span className='error'>{this.state.errors.first_name}</span>}*/}
+              {/*</div>*/}
+              {/*<div className="form-group">*/}
+                {/*<label htmlFor="name">Last name</label>*/}
+                {/*<input*/}
+                  {/*type="text"*/}
+                  {/*className="form-control"*/}
+                  {/*name="last_name"*/}
+                  {/*placeholder="Enter your last name"*/}
+                  {/*value={this.state.last_name}*/}
+                  {/*onChange={this.onChange}*/}
+                  {/*noValidate*/}
+                {/*/>*/}
+                 {/*{this.state.errors.last_name.length > 0 &&*/}
+                {/*<span className='error'>{this.state.errors.last_name}</span>}*/}
+              {/*</div>*/}
+              {/*<div className="form-group">*/}
+                {/*<label htmlFor="name">Your gender</label><br></br>*/}
+                {/*<input type="radio" name="gender" value="Male" onChange={this.onChange}/> Male<br></br>*/}
+                {/*<input type="radio" name="gender" value="Female" onChange={this.onChange}/> Female<br></br>*/}
+                {/*<input type="radio" name="gender" value="other" onChange={this.onChange}/> Other*/}
+              {/*</div>*/}
+                 {/*{this.state.errors.gender.length > 0 &&*/}
+                {/*<span className='error'>{this.state.errors.gender}</span>}*/}
+              {/*<div className="form-group">*/}
+                  {/*<label htmlFor="name">Birth date</label><br></br>*/}
+                {/*<DatePicker*/}
+                 {/*name="birth_date"*/}
+                 {/*selected={this.state.birth_date}*/}
+                 {/*onChange={this.handleChange}*/}
+                 {/*dateFormat="dd/MM/yyyy"*/}
+                 {/*maxDate={new Date()}*/}
+                {/*/>*/}
+              {/*</div>*/}
               <div className="form-group">
                 <label htmlFor="email">Email address</label>
                 <input
@@ -236,6 +245,7 @@ class Register extends Component {
                  {this.state.email_taken > 0 &&
                 <span className='error'>This email is taken</span>}
               </div>
+
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input
@@ -250,6 +260,23 @@ class Register extends Component {
                   {this.state.errors.password.length > 0 &&
                 <span className='error'>{this.state.errors.password}</span>}
               </div>
+
+              <div className="form-group">
+                  <label htmlFor="about">About</label>
+                <textarea
+                    rows="7"
+                  type="container"
+                  className="form-control"
+                  name="about"
+                  placeholder="Write a few words about yourself"
+                  value={this.state.about}
+                  onChange={this.onChange}
+                  noValidate
+                />
+                 {this.state.errors.about.length > 0 &&
+                <span className='error'>{this.state.errors.last_name}</span>}
+              </div>
+
               <button
                 type="submit"
                 className="btn btn-lg btn-primary btn-block"

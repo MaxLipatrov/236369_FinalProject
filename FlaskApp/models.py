@@ -2,7 +2,12 @@ from flask_login import UserMixin
 from sqlalchemy.orm import synonym
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
-from geoalchemy2 import Geometry
+# import SQLAlchemy
+# from SQALchemy.geoalchemy2 import Geometry
+# import geometry
+# import geoalchemy2
+# import geometry
+# from FlaskApp import app, db, bcrypt, login_manager, geolocator
 from FlaskApp import db
 
 
@@ -20,7 +25,7 @@ class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
-    location = db.Column(Geometry('POINT'), nullable=False)
+    # location = db.Column(Geometry('POINT'), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)

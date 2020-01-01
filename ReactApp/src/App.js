@@ -21,21 +21,21 @@ class App extends Component {
           <Navbar />
           <Route exact path="/" component={Landing} />
           <div className="container">
-            <Route exact path="http://127.0.0.1:5000/register" render={(props) => (
+            <Route exact path="/register" render={(props) => (
                 !isLoggedIn() ? (
                     <Register {...props} />) : (<Redirect to="http://127.0.0.1:5000/profile"/> )
             )}/>
             <Route exact path="http://127.0.0.1:5000/login" render={(props) => (
                 !isLoggedIn() ? (
-                    <Login {...props} />) : (<Redirect to="http://127.0.0.1:5000/profile"/> )
+                    <Login {...props} />) : (<Redirect to="/profile"/> )
             )}/>
-             <Route exact path="http://127.0.0.1:5000/users/:id" render={(props) => (
+             <Route exact path="/users/:id" render={(props) => (
                 isLoggedIn() ? (
                     <Profile {...props} />) : (<Redirect to="/login"/> )
             )}/>
             <Route exact path="http://127.0.0.1:5000/profile/:id" render={(props) => (
                 isLoggedIn() ? (
-                    <Profile {...props} />) : (<Redirect to="http://127.0.0.1:5000/login"/> )
+                    <Profile {...props} />) : (<Redirect to="/login"/> )
             )}/>
 
           </div>
