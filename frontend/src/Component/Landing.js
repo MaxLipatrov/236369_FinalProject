@@ -25,7 +25,7 @@ class Landing extends Component {
                 </div>
             </div>
         </div>);
-        
+
         return localStorage.usertoken ? ifLoggedIn : ifAnonymous
     }
 }

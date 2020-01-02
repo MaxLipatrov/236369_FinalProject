@@ -118,6 +118,41 @@ def logout():
     logout_user()
     return 'Logged Out', 201
 
+
+@app.route('/is_following/<string:user_id>', methods=['GET'])
+@login_required
+def is_following(user_id):
+    user = User.query.get_or_404(user_id)
+
+    if current_user.is_following(user):
+        return 'True'
+    return 'False'
+
+
+@app.route('/is_following_me/<string:user_id>', methods=['GET'])
+@login_required
+def is_following_me(user_id):
+    user = User.query.get_or_404(user_id)
+
+    if user.is_following(current_user):
+        return 'True'
+    return 'False'
+
+
+@app.route('/follow/<string:user_id>', methods=['POST', 'DELETE'])
+@login_required
+def follow(user_id):
+    print('follow called')
+    user = User.query.get_or_404(user_id)
+    if current_user.is_following(user):
+        print('is following - unfollowing now')
+        current_user.unfollow(user)
+    else:
+        print('not following - following now')
+        current_user.follow(user)
+    db.session.commit()
+    return 'True'
+
 #
 # @app.route("/users/<int:user_id>", methods=['GET'])
 # def get_user(user_id):
@@ -165,23 +200,4 @@ def logout():
 #     return 'Logged Out', 201
 #
 #
-#
-# @app.route('/is_following/<int:user_id>', methods=['GET'])
-# @login_required
-# def is_following(user_id):
-#     user = User.query.get_or_404(user_id)
-#
-#     if current_user.is_following(user):
-#         return 'True'
-#     return 'False'
-#
-#
-# @app.route('/is_following_me/<int:user_id>', methods=['GET'])
-# @login_required
-# def is_following_me(user_id):
-#     user = User.query.get_or_404(user_id)
-#
-#     if user.is_following(current_user):
-#         return 'True'
-#     return 'False'
 #

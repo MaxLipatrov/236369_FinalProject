@@ -77,7 +77,7 @@ class User(UserMixin, db.Model):
 
     def follow(self, user):
         if not self.is_following(user):
-            f = Follow(follower_name=self, followed_name=user)
+            f = Follow(follower_name=self.user_name, followed_name=user.user_name, start_date=datetime.datetime.utcnow())
             db.session.add(f)
 
     def unfollow(self, user):
