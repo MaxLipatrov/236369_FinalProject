@@ -12,7 +12,7 @@ class Navbar extends Component {
         current_user: 0,
         username:'',
         search_msg:'Search for a user'
-    }
+    };
     get_user(){
         this.setState({search_msg:'Search for a user'});
          axios.defaults.withCredentials = true;
@@ -30,10 +30,10 @@ class Navbar extends Component {
     }
 
   logOut(e) {
-      e.preventDefault()
+      e.preventDefault();
       axios.defaults.withCredentials = true;
       axios.get('http://127.0.0.1:5000/logout').then(response => {
-          localStorage.removeItem('usertoken')
+          localStorage.removeItem('usertoken');
           this.props.history.push(`/`)
       })
         .catch(err => {
@@ -74,7 +74,7 @@ class Navbar extends Component {
           </Link>
         </li>
       </ul>
-    )
+    );
 
     const userLink = (
       <ul className="navbar-nav">
@@ -100,7 +100,7 @@ class Navbar extends Component {
       </ul>
 
 
-    )
+    );
 
     return (
       <div><nav className="navbar navbar-expand-lg navbar-dark bg-dark rounded">

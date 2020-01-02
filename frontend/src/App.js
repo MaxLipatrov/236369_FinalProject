@@ -14,10 +14,8 @@ import {Redirect} from "react-router-dom";
 // }
 
 function isLoggedIn() {
-  if (localStorage.usertoken) {
-    return true
-  }
-  return false
+  return !!localStorage.usertoken;
+
 }
 
 
@@ -39,7 +37,7 @@ class App extends Component {
             )}/>
              <Route exact path="/users/:id" render={(props) => (
                 isLoggedIn() ? (
-                    <Profile {...props} />) : (<Redirect to="/login"/> )
+                    <Profile {...props} />) : (<Redirect to="/profile"/> )
             )}/>
             <Route exact path="/profile/:id" render={(props) => (
                 isLoggedIn() ? (

@@ -1,7 +1,9 @@
 <component name="ProjectDictionaryState">
   <dictionary name="max">
     <words>
+      <w>axios</w>
       <w>bcrypt</w>
+      <w>navbar</w>
       <w>sqlalchemy</w>
       <w>tablename</w>
       <w>unfollow</w>
