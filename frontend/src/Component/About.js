@@ -244,9 +244,9 @@ export class About extends Component {
         formData.append("file", img);
         axios.defaults.withCredentials = true;
         axios
-            .put("http://127.0.0.1:5000/image/" + this.props.id, formData)
+            .put("http://127.0.0.1:5000/image/" + this.state.username, formData)
             .then(res => {
-                    console.log(res.data.image_file)
+                    console.log(res.data.image_file);
                     this.props.updatePic({image_file: res.data.image_file});
                 }
             )
@@ -285,15 +285,11 @@ export class About extends Component {
                     }
                     this.setState({flag: true, file: null});
                 }
-                if (res === 'Username Taken') {
-                    this.setState({user_taken: 1});
-                    this.setState({invalid: 1});
-                }
                 if (res === 'Email Taken') {
                     this.setState({email_taken: 1});
                     this.setState({invalid: 1});
                 }
-            })
+            });
         } else {
             this.setState({invalid: 1});
         }

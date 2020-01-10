@@ -59,6 +59,21 @@ def update_user(user_name):
     return 'Updated'
 
 
+@app.route("/image/<string:user_name>", methods=['PUT'])
+@login_required
+def update_image(user_name):
+    data = request.files
+    print(data)
+    if not data or 'file' not in data:
+        abort(400)
+    if data['file'] == '':
+        current_user.image = url_for('static', filename='profile_pics/default.jpg')
+    else:
+        current_user.image = url_for('static', filename='profile_pics/' + save_picture(data['file']))
+    db.session.commit()
+    return jsonify({'image_file': current_user.image})
+
+
 @app.route("/users/<string:user_name>", methods=['GET'])
 def get_user(user_name):
     print('querying for user')
