@@ -24,7 +24,7 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
-    output_size = (125, 125)
+    output_size = (250, 250)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
@@ -38,6 +38,25 @@ def date_between(start_date, end_date, start_date_arg, end_date_arg):
     if start_date.date() <= end_date_arg_converted:
         return end_date.date() >= start_date_arg_converted
     return False
+
+
+@app.route("/update/<string:user_name>", methods=['PUT'])
+@login_required
+def update_user(user_name):
+    data = request.get_json()
+
+    if not data or 'username' not in data or 'email' not in data:
+        abort(400)
+
+    check_user = User.query.filter_by(email=data['email']).first()
+    if check_user and check_user.user_name != user_name:
+        return 'Email Taken'
+
+    current_user.email = data['email']
+    current_user.about = data['about']
+    db.session.commit()
+
+    return 'Updated'
 
 
 @app.route("/users/<string:user_name>", methods=['GET'])

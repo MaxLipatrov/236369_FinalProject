@@ -9,18 +9,16 @@ import Button from "reactstrap/es/Button";
 const update = updatedUser => {
     axios.defaults.withCredentials = true;
     return axios
-        .put('http://127.0.0.1:5000/users/' + updatedUser.id, {
+        .put('http://127.0.0.1:5000/update/' + updatedUser.username, {
             username: updatedUser.username,
-            first_name: updatedUser.first_name,
-            last_name: updatedUser.last_name,
-            gender: updatedUser.gender,
-            birth_date: updatedUser.birth_date,
             email: updatedUser.email,
+            about: updatedUser.about
         })
         .then(response => {
             return response.data
         })
-}
+};
+
 
 const isChecked = gender => {
     let res = false;
@@ -36,7 +34,7 @@ const isChecked = gender => {
             break;
     }
     return res;
-}
+};
 const validEmailRegex =
     RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
@@ -46,7 +44,7 @@ const validateForm = (errors) => {
         (val) => val.length > 0 && (valid = false)
     );
     return valid;
-}
+};
 
 function ProfileInfo(props) {
     return (
@@ -75,72 +73,6 @@ function EditProfile(props) {
             <form noValidate onSubmit={props.onSubmit}>
                 <h1 className="h3 mb-3 font-weight-normal">Update Profile</h1>
                 <div className="form-group">
-                    {props.invalid > 0 && <Alert color="danger">
-                        Your update attempt is invalid. Please try again!
-                    </Alert>}
-                    <label htmlFor="name">Username</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="username"
-                        placeholder="Enter your username"
-                        value={props.username}
-                        onChange={props.onChange}
-                        noValidate
-                    />
-                    {props.errors.username.length > 0 &&
-                    <span className='error'>{props.errors.username}</span>}
-                    {props.user_taken > 0 &&
-                    <span className='error'>This username is taken</span>}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="name">First name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="first_name"
-                        placeholder="Enter your first name"
-                        value={props.first_name}
-                        onChange={props.onChange}
-                        noValidate
-                    />
-                    {props.errors.first_name.length > 0 &&
-                    <span className='error'>{props.errors.first_name}</span>}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="name">Last name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="last_name"
-                        placeholder="Enter your last name"
-                        value={props.last_name}
-                        onChange={props.onChange}
-                        noValidate
-                    />
-                    {props.errors.last_name.length > 0 &&
-                    <span className='error'>{props.last_name}</span>}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="name">Gender</label><br></br>
-                    <input type="radio" name="gender" value="Male" onChange={props.onChange}
-                           checked={isChecked({field: 'Male', value: props.gender})}/> Male<br></br>
-                    <input type="radio" name="gender" value="Female" onChange={props.onChange}
-                           checked={isChecked({field: 'Female', value: props.gender})}/> Female<br></br>
-                    <input type="radio" name="gender" value="other" onChange={props.onChange}
-                           checked={isChecked({field: 'Other', value: props.gender})}/> Other
-                </div>
-                <div className="form-group">
-                    <label htmlFor="name">Birth date</label><br></br>
-                    <DatePicker
-                        name="birth_date"
-                        selected={new Date(props.birth_date)}
-                        onChange={props.handlechange}
-                        dateFormat="dd/MM/yyyy"
-                        maxDate={new Date()}
-                    />
-                </div>
-                <div className="form-group">
                     <label htmlFor="email">Email address</label>
                     <input
                         type="email"
@@ -155,6 +87,21 @@ function EditProfile(props) {
                     <span className='error'>{props.errors.email}</span>}
                     {props.email_taken > 0 &&
                     <span className='error'>This email is taken</span>}
+                </div>
+                <div className="form-group">
+                    {props.invalid > 0 && <Alert color="danger">
+                        Your update attempt is invalid. Please try again!
+                    </Alert>}
+                    <label htmlFor="about">About</label>
+                    <textarea
+                        rows="7"
+                        className="form-control"
+                        name="about"
+                        placeholder="Write few words about yourself"
+                        value={props.about}
+                        onChange={props.onChange}
+                        noValidate
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="image_file">Profile Picture</label>
@@ -209,15 +156,16 @@ export class About extends Component {
         const token = localStorage.usertoken;
         if (token) {
             const decoded = jwt_decode(token);
-            this.setState({current_user: decoded.identity.id});
+
+            this.setState({current_user: decoded.identity.user_name});
         }
 
         axios.get('http://127.0.0.1:5000/users/' + this.props.id).then((response) => {
-            console.log(response.data.about);
             this.setState({
                 username: response.data.user_name,
                 email: response.data.email,
-                about: response.data.about
+                about: response.data.about,
+                path_img: response.data.image_file
             })
         }).catch(err => {
             console.log(err)
@@ -316,37 +264,32 @@ export class About extends Component {
         this.setState({email_taken: 0});
 
         const updatedUser = {
-            id: this.props.id,
             username: this.state.username,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            gender: this.state.gender,
-            birth_date: this.state.birth_date,
             email: this.state.email,
-        }
+            about: this.state.about
+        };
         const info = {
             email: this.state.email,
-            username: this.state.username
-        }
+            username: this.state.username,
+            about: this.state.about
+        };
 
         if (validateForm(this.state.errors)) {
             update(updatedUser).then(res => {
-                if (res == 'Updated') {
+                if (res === 'Updated') {
                     if (this.state.file) {
-                        this.uploadImg()
+                        this.uploadImg();
                         this.props.updateInfo(info);
                     } else {
-                        console.log("here5");
-
                         this.props.updateInfo(info);
                     }
                     this.setState({flag: true, file: null});
                 }
-                if (res == 'Username Taken') {
+                if (res === 'Username Taken') {
                     this.setState({user_taken: 1});
                     this.setState({invalid: 1});
                 }
-                if (res == 'Email Taken') {
+                if (res === 'Email Taken') {
                     this.setState({email_taken: 1});
                     this.setState({invalid: 1});
                 }
@@ -366,23 +309,18 @@ export class About extends Component {
                         about={this.state.about}
                     />}
                     <p className="m-md-4" align="center">
-                        {this.state.flag && (this.state.current_user == this.props.id) &&
+                        {this.state.flag && (this.state.current_user === this.props.id) &&
                         <Button className="my-3" color="secondary" onClick={this.toggleUpdate.bind(this)}>Edit
                             Profile</Button>}
                     </p>
                     {!this.state.flag && <EditProfile
-                        username={this.state.username}
-                        first_name={this.state.first_name}
-                        last_name={this.state.last_name}
-                        gender={this.state.gender}
-                        birth_date={this.state.birth_date}
                         email={this.state.email}
+                        about={this.state.about}
                         errors={this.state.errors}
                         onChange={this.onChange}
                         handlechange={this.handleChange}
                         onSubmit={this.onSubmit}
                         invalid={this.state.invalid}
-                        user_taken={this.state.user_taken}
                         email_taken={this.state.email_taken}
                         flag={this.state.flag}
                         toggleUpdate={this.toggleUpdate}
