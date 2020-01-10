@@ -67,11 +67,12 @@ def update_image(user_name):
     if not data or 'file' not in data:
         abort(400)
     if data['file'] == '':
-        current_user.image = url_for('static', filename='profile_pics/default.jpg')
+        current_user.image = 'default.jpg'
     else:
-        current_user.image = url_for('static', filename='profile_pics/' + save_picture(data['file']))
+        current_user.image = save_picture(data['file'])
     db.session.commit()
-    return jsonify({'image_file': current_user.image})
+
+    return jsonify({'image_file': url_for('static', filename='profile_pics/' + save_picture(data['file']))})
 
 
 @app.route("/users/<string:user_name>", methods=['GET'])
