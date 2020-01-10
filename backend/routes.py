@@ -89,7 +89,8 @@ def get_user(user_name):
         about = 'No about information'
 
     return jsonify({'user_name': user.user_name,
-                    'email': user.email, 'image_file': image_file,
+                    'email': user.email,
+                    'image_file': image_file,
                     'followers': len(user.followers.all()),
                     'followed': len(user.followed.all()),
                     'about': about})
@@ -187,6 +188,28 @@ def follow(user_id):
         current_user.follow(user)
     db.session.commit()
     return 'True'
+
+
+@app.route('/following/<string:user_id>', methods=['GET'])
+@login_required
+def following(user_id):
+    User.query.get_or_404(user_id)
+    f = Follow.query.filter_by(follower_name=user_id).all()
+    users_names = [item.followed_name for item in f]
+    res = [get_user(u).get_json() for u in users_names]
+    return jsonify({'following': res})
+
+
+@app.route('/followers/<string:user_id>', methods=['GET'])
+@login_required
+def followers(user_id):
+    User.query.get_or_404(user_id)
+    f = Follow.query.filter_by(followed_name=user_id).all()
+    users_names = [item.follower_name for item in f]
+    res = [get_user(u).get_json() for u in users_names]
+    return jsonify({'followers': res})
+
+
 
 #
 # @app.route("/users/<int:user_id>", methods=['GET'])

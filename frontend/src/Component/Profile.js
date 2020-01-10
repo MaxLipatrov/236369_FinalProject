@@ -63,6 +63,15 @@ export class Profile extends Component {
         })
     }
 
+    showFollowersAndFollowing() {
+        this.setState({
+            postsFlag: 0,
+            aboutFlag: 0,
+            followingFlag: 1,
+            followersFlag: 1
+        })
+    }
+
     componentDidMount() {
         const token = localStorage.usertoken;
         if (token) {
@@ -102,7 +111,7 @@ export class Profile extends Component {
         }).catch(err => {
             console.log(err)
         });
-
+        this.showFollowersAndFollowing();
     }
 
     componentDidUpdate(prevProps) {
@@ -151,6 +160,7 @@ export class Profile extends Component {
     }
 
     render() {
+        //console.log(this.props.match.params.id);
         return (<div>
                 <div className="jumbotron-fluid mt-5">
                     <div className="text-center">
@@ -163,10 +173,11 @@ export class Profile extends Component {
                                 <h1 className="account-heading">{this.state.username}</h1>
                                 <p className="text-secondary">
                                     {this.state.email}
-                                    {(this.state.current_user !== this.props.match.params.id) && this.state.isFollowingMe && <h5><Badge pill variant="secondary">Follows you</Badge></h5>}
+                                    {(this.state.current_user !== this.props.match.params.id) && this.state.isFollowingMe &&
+                                    <h5><Badge pill variant="secondary">Follows you</Badge></h5>}
                                 </p>
-                                {   (this.state.current_user !== this.state.username) &&
-                                    (this.state.current_user !== this.props.match.params.id) && <Button
+                                {(this.state.current_user !== this.state.username) &&
+                                (this.state.current_user !== this.props.match.params.id) && <Button
                                     variant="outline-primary"
                                     onClick={this.state.isFollowing ? this.unfollowUser.bind(this) : this.followUser.bind(this)}
                                 >

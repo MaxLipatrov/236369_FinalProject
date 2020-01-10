@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 
 export class Users extends Component {
     constructor() {
-        super()
+        super();
         this.state = {
             current_page: 1,
             amount: 0,
@@ -66,7 +66,7 @@ export class Users extends Component {
                         <td><img className="rounded-circle account-img"
                                  src={"http://127.0.0.1:5000" + user.image_file}
                                  height="60" width="60"
-                        /> <a href={"/users/" + user.id}>{'     ' + user.username}</a></td>
+                        /> <a href={"/users/" + user.user_name}>{'     ' + user.user_name}</a></td>
                     </tr>
                 </div>
 
@@ -75,8 +75,11 @@ export class Users extends Component {
 
         return (
             <div>
+                {this.props.type === 1 ?
+                    <div class="text-center">Followers:</div> : <div className="text-center">Following:</div>}
+
                 <table className="table col-md-6 mx-auto">
-                    <tbody> {users}</tbody>
+                    <tbody>{users}</tbody>
                 </table>
 
                 <ReactPaginate

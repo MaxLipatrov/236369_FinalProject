@@ -12,7 +12,7 @@ class Follow(db.Model):
     start_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
 
     def __repr__(self):
-        return f"Follow('{self.start_date}')"
+        return f"Follow('{self.follower_name},{self.followed_name},{self.start_date}')"
 
 
 class Post(db.Model):
@@ -77,7 +77,8 @@ class User(UserMixin, db.Model):
 
     def follow(self, user):
         if not self.is_following(user):
-            f = Follow(follower_name=self.user_name, followed_name=user.user_name, start_date=datetime.datetime.utcnow())
+            f = Follow(follower_name=self.user_name, followed_name=user.user_name,
+                       start_date=datetime.datetime.utcnow())
             db.session.add(f)
 
     def unfollow(self, user):
@@ -97,6 +98,7 @@ class User(UserMixin, db.Model):
 
         return self.followers.filter_by(
             follower_name=user.user_name).first() is not None
+
 
     @property
     def password(self):
