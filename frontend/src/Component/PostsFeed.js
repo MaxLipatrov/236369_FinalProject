@@ -5,6 +5,8 @@ import moment from "moment";
 import {Link} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import Alert from "reactstrap/es/Alert";
+import Collapsible from 'react-collapsible';
+import MapExample from './Map'
 
 const createNewPost = (post, user_name) => {
     axios.defaults.withCredentials = true;
@@ -86,28 +88,18 @@ export class PostsFeed extends Component {
         if (this.validateNewPostForm(this.state.errors)) {
 
             createNewPost(post, this.state.current_user).then(r => {
-
+                window.location.reload();
             });
-            this.componentDidMount();
-
         } else {
             this.setState({invalid: 1});
         }
     }
 
     onNewPostChange(e) {
-        e.preventDefault();
         let errors = this.state.errors;
         const {name, value} = e.target;
 
-        /**
-         *
-         *  start_date: '',
-         end_date: '',
-         latitude: 0,
-         longitude: 0,
-         about: '',**/
-
+        console.log("name: " + name + " value: " + value);
 
         switch (name) {
             case 'start_date':
@@ -140,59 +132,67 @@ export class PostsFeed extends Component {
             <br/>
             <tr>
                 <td style={{border: '1px solid', width: '50%'}}>
-                    <text>Share your travel plans in a new post:</text>
-                    <form noValidate onSubmit={this.onNewPostSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="start_date">Start date:</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                name="start_date"
-                                onChange={this.onNewPostChange}
-                            />
-                        </div>
+                    <Collapsible trigger="Click here to share your plans in a new post!"
+                                 triggerWhenOpen="Click here to collapse the form!">
+                        <br/>
+                        <form noValidate onSubmit={this.onNewPostSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="start_date">Start date:</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="start_date"
+                                    onChange={this.onNewPostChange}
+                                />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="end_date">End date:</label>
-                            <input
-                                type="date"
-                                className="form-control"
-                                name="end_date"
-                                onChange={this.onNewPostChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="latitude">Latitude:</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="latitude"
-                                onChange={this.onNewPostChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="longitude">Longitude:</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="longitude"
-                                onChange={this.onNewPostChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="about">About:</label>
-                            <textarea
-                                rows="3"
-                                className="form-control"
-                                name="about"
-                                placeholder="Write few words about your travel plans"
-                                onChange={this.onNewPostChange}
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-lg btn-primary btn-block">
-                            Create!
-                        </button>
-                    </form>
+                            <div className="form-group">
+                                <label htmlFor="end_date">End date:</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="end_date"
+                                    onChange={this.onNewPostChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="latitude">Latitude:</label>
+                                <input id="latitude-input"
+                                    type="text"
+                                    className="form-control"
+                                    name="latitude"
+                                    onChange={this.onNewPostChange}
+                                    disabled
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="longitude">Longitude:</label>
+                                <input
+                                    id="longitude-input"
+                                    type="text"
+                                    className="form-control"
+                                    name="longitude"
+                                    onChange={this.onNewPostChange}
+                                    disabled
+                                />
+                            </div>
+                            <MapExample zoom={8} center={{lat: 51.5287718, lng: -0.2416804}}/>
+                            <div className="form-group">
+                                <label htmlFor="about">About:</label>
+                                <textarea
+                                    rows="3"
+                                    className="form-control"
+                                    name="about"
+                                    placeholder="Write few words about your travel plans"
+                                    onChange={this.onNewPostChange}
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-lg btn-primary btn-block">
+                                Create!
+                            </button>
+                        </form>
+                    </Collapsible>
                 </td>
             </tr>
         </div>);
@@ -202,19 +202,7 @@ export class PostsFeed extends Component {
     render() {
 
         let new_post = this.newPost();
-// {!this.state.flag && <EditProfile
-//                         email={this.state.email}
-//                         about={this.state.about}
-//                         errors={this.state.errors}
-//                         onChange={this.onChange}
-//                         handlechange={this.handleChange}
-//                         onSubmit={this.onSubmit}
-//                         invalid={this.state.invalid}
-//                         email_taken={this.state.email_taken}
-//                         flag={this.state.flag}
-//                         toggleUpdate={this.toggleUpdate}
-//                         onchangeimg={this.onChangeImg}
-//                     />}
+
 
         let posts = this.state.posts.map((post) => {
             return (
