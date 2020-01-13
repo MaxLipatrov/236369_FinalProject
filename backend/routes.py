@@ -5,6 +5,7 @@ from PIL import Image
 from flask import request, url_for, jsonify
 from flask_jwt_extended import create_access_token
 from flask_login import login_user, logout_user, login_required, current_user
+from sqlalchemy import func
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 
@@ -248,6 +249,43 @@ def get_posts_of_specific_user(user_id):
     # end_date = db.Column(db.DateTime, nullable=False)
     # post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
     # about = db.Column(db.Text)
+
+
+@app.route("/post/new", methods=['PUT'])
+@login_required
+def add_post():
+    data = request.get_json()
+
+    # id = db.Column(db.Integer, primary_key=True)
+    # user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
+    # latitude = db.Column(db.Float, nullable=False)
+    # longitude = db.Column(db.Float, nullable=False)
+    # start_date = db.Column(db.DateTime, nullable=False)
+    # end_date = db.Column(db.DateTime, nullable=False)
+    # post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
+    # about = db.Column(db.Text)
+    print(data)
+    if not data \
+            or 'user_name' not in data \
+            or 'latitude' not in data \
+            or 'longitude' not in data \
+            or 'start_date' not in data \
+            or 'end_date' not in data \
+            or 'about' not in data:
+        abort(400)
+
+    max_id = db.session.query(func.max(Post.id)).scalar()
+    post = Post(id=max_id+1,
+                user_name=data["user_name"],
+                latitude=data["latitude"],
+                longitude=data["longitude"],
+                start_date=data['start_date'],
+                end_date=data['end_date'],
+                about=data['about'])
+
+    db.session.add(post)
+    db.session.commit()
+    return 'Created'
 
 #
 # @app.route("/users/<int:user_id>", methods=['GET'])

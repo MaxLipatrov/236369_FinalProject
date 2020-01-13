@@ -67,7 +67,6 @@ function EditProfile(props) {
                         placeholder="Enter email"
                         value={props.email}
                         onChange={props.onChange}
-                        noValidate
                     />
                     {props.errors.email.length > 0 &&
                     <span className='error'>{props.errors.email}</span>}
@@ -86,7 +85,6 @@ function EditProfile(props) {
                         placeholder="Write few words about yourself"
                         value={props.about}
                         onChange={props.onChange}
-                        noValidate
                     />
                 </div>
                 <div className="form-group">
