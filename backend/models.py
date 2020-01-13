@@ -19,7 +19,8 @@ class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
-    # location = db.Column(Geometry('POINT'), nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)

@@ -27,7 +27,7 @@ export class Profile extends Component {
     };
 
     showPosts(e) {
-        e.preventDefault()
+        e.preventDefault();
         this.setState({
             postsFlag: 1,
             aboutFlag: 0,
@@ -92,6 +92,7 @@ export class Profile extends Component {
         }).catch(err => {
             console.log(err)
         });
+
         axios.defaults.withCredentials = true;
         axios.get('http://127.0.0.1:5000/is_following/' + this.props.match.params.id).then((response) => {
             const res = (response.data === 'True');
@@ -166,7 +167,7 @@ export class Profile extends Component {
                     <div className="text-center">
                         <div className="media">
                             <div className="media-body">
-                                <img className="center" className="rounded-circle account-img"
+                                <img className="rounded-circle account-img"
                                      src={"http://127.0.0.1:5000" + this.state.image_file}
                                      height="200" width="200"
                                 />

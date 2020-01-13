@@ -210,6 +210,44 @@ def followers(user_id):
     return jsonify({'followers': res})
 
 
+@app.route('/posts/<string:user_id>', methods=['GET'])
+@login_required
+def get_posts(user_id):
+    """ This route returns posts for feed - both his and of these he follows """
+    User.query.get_or_404(user_id)
+    res = get_posts_of_specific_user(user_id)
+
+    f = Follow.query.filter_by(follower_name=user_id).all()
+    users_names = [item.followed_name for item in f]
+    for user_name in users_names:
+        user_posts = get_posts_of_specific_user(user_name)
+        res = res + user_posts
+    return jsonify(res)
+
+
+def get_posts_of_specific_user(user_id):
+    """ Is a helper function """
+    posts_of_current = Post.query.filter_by(user_name=user_id)
+    current = get_user(user_id).get_json()
+    res = [{'id': post.id,
+            'user_name': post.user_name,
+            'user_image': current['image_file'],
+            'start_date': post.start_date,
+            'end_date': post.end_date,
+            'post_date': post.post_date,
+            'about': post.about,
+            'latitude': post.latitude,
+            'longitude': post.longitude
+            } for post in posts_of_current]
+    return res
+
+    # id = db.Column(db.Integer, primary_key=True)
+    # user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
+    # # location = db.Column(Geometry('POINT'), nullable=False)
+    # start_date = db.Column(db.DateTime, nullable=False)
+    # end_date = db.Column(db.DateTime, nullable=False)
+    # post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
+    # about = db.Column(db.Text)
 
 #
 # @app.route("/users/<int:user_id>", methods=['GET'])

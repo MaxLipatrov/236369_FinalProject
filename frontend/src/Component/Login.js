@@ -13,16 +13,16 @@ export const login = user => {
         })
         .then(response => {
             localStorage.setItem('usertoken', response.data);
-            return response.data
+            return response.data;
         })
         .catch(err => {
-            console.log(err)
-            return 'error'
+            console.log(err);
+            return 'error';
         })
 };
 
 const validEmailRegex =
-    RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    RegExp(/^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
 
 const validateForm = (errors) => {
     let valid = true;
@@ -46,8 +46,8 @@ class Login extends Component {
 
         };
 
-        this.onChange = this.onChange.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     onChange(e) {

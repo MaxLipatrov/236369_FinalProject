@@ -20,23 +20,9 @@ const update = updatedUser => {
 };
 
 
-const isChecked = gender => {
-    let res = false;
-    switch (gender.field) {
-        case 'Male':
-            res = (gender.value === 'male' || gender.value === 'Male');
-            break;
-        case 'Female':
-            res = (gender.value === 'female' || gender.value === 'Female');
-            break;
-        case 'Other':
-            res = (gender.value === 'other' || gender.value === 'Other');
-            break;
-    }
-    return res;
-};
+
 const validEmailRegex =
-    RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    RegExp(/^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
 
 const validateForm = (errors) => {
     let valid = true;
@@ -258,7 +244,7 @@ export class About extends Component {
     }
 
     onSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
         this.setState({invalid: 0});
         this.setState({user_taken: 0});
         this.setState({email_taken: 0});
