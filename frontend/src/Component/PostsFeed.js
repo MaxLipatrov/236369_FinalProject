@@ -24,6 +24,18 @@ const createNewPost = (post, user_name) => {
         })
 };
 
+const deletePost = (post_id, user_name) => {
+    axios.defaults.withCredentials = true;
+    return axios
+        .put('http://127.0.0.1:5000/post/delete', {
+            user_name: user_name,
+            post_id: post_id
+        })
+        .then(response => {
+            return response.data
+        })
+};
+
 
 export class PostsFeed extends Component {
     constructor() {
@@ -47,6 +59,8 @@ export class PostsFeed extends Component {
         };
         this.onNewPostChange = this.onNewPostChange.bind(this);
         this.onNewPostSubmit = this.onNewPostSubmit.bind(this);
+        this.onPostDelete = this.onPostDelete.bind(this);
+
     }
 
     componentDidMount() {
@@ -159,11 +173,10 @@ export class PostsFeed extends Component {
                             <div className="form-group">
                                 <label htmlFor="latitude">Latitude:</label>
                                 <input id="latitude-input"
-                                    type="text"
-                                    className="form-control"
-                                    name="latitude"
-                                    onChange={this.onNewPostChange}
-                                    disabled
+                                       type="text"
+                                       className="form-control"
+                                       name="latitude"
+                                       onChange={this.onNewPostChange}
                                 />
                             </div>
                             <div className="form-group">
@@ -174,7 +187,6 @@ export class PostsFeed extends Component {
                                     className="form-control"
                                     name="longitude"
                                     onChange={this.onNewPostChange}
-                                    disabled
                                 />
                             </div>
                             <MapExample zoom={8} center={{lat: 51.5287718, lng: -0.2416804}}/>
@@ -198,6 +210,11 @@ export class PostsFeed extends Component {
         </div>);
     }
 
+    onPostDelete(post_id) {
+        deletePost(post_id, this.state.current_user).then(r => {
+            this.refresh_feed();
+        });
+    }
 
     render() {
 
@@ -210,7 +227,22 @@ export class PostsFeed extends Component {
                     <br/>
                     <tr>
                         <td style={{border: '1px solid', width: '50%'}}>
-                            <text>#{post.id}</text>
+                            <text>#{post.id} </text>
+                            {this.state.current_user === post.user_name &&
+                            <button>
+                                <span className="glyphicon glyphicon-edit"/>Edit
+                            </button>
+                            }
+                            {this.state.current_user === post.user_name &&
+                            <button onClick={() => {
+                                let res = window.confirm('Are you sure you want to delete this post?');
+                                if (res) {
+                                    this.onPostDelete(post.id)
+                                }
+                            }}>
+                                Delete
+                            </button>
+                            }
                             <br/>
                             <img className="rounded-circle account-img"
                                  src={"http://127.0.0.1:5000" + post.user_image}
@@ -218,6 +250,10 @@ export class PostsFeed extends Component {
                             />
                             <a href={"/users/" + post.user_name}>{'     ' + post.user_name}</a>
                             <text> posted at {post.post_date.substring(0, post.post_date.length - 4)}</text>
+
+                            {/*{(this.state.current_user !== this.props.match.params.id) && this.state.isFollowingMe &&*/}
+                            {/*      <h5><Badge pill variant="secondary">Follows you</Badge></h5>}*/}
+
                             <br/>
                             <text>From {post.start_date.substring(0, post.post_date.length - 13)}</text>
                             <br/>

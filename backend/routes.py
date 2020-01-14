@@ -255,15 +255,6 @@ def get_posts_of_specific_user(user_id):
 @login_required
 def add_post():
     data = request.get_json()
-
-    # id = db.Column(db.Integer, primary_key=True)
-    # user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
-    # latitude = db.Column(db.Float, nullable=False)
-    # longitude = db.Column(db.Float, nullable=False)
-    # start_date = db.Column(db.DateTime, nullable=False)
-    # end_date = db.Column(db.DateTime, nullable=False)
-    # post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
-    # about = db.Column(db.Text)
     print(data)
     if not data \
             or 'user_name' not in data \
@@ -275,7 +266,7 @@ def add_post():
         abort(400)
 
     max_id = db.session.query(func.max(Post.id)).scalar()
-    post = Post(id=max_id+1,
+    post = Post(id=max_id + 1,
                 user_name=data["user_name"],
                 latitude=data["latitude"],
                 longitude=data["longitude"],
@@ -287,51 +278,18 @@ def add_post():
     db.session.commit()
     return 'Created'
 
-#
-# @app.route("/users/<int:user_id>", methods=['GET'])
-# def get_user(user_id):
-#     user = User.query.get_or_404(user_id)
-#     image_file = url_for('static', filename='profile_pics/' + user.image_file)
-#
-#     return jsonify({'username': user.username, 'first_name': user.first_name, 'last_name': user.last_name,
-#                     'gender': user.gender, 'birth_date': user.birth_date, 'email': user.email,
-#                     'image_file': image_file, 'followers': len(user.followers.all()),
-#                     'followed': len(user.followed.all())})
-#
-#
-# @app.route("/user/<string:name>", methods=['GET'])
-# def get_user_id(name):
-#     user = User.query.filter_by(username=name).first()
-#     if not user:
-#         abort(404)
-#     return jsonify({'id': user.id})
-#
 
-# @app.route("/login", methods=['GET', 'POST'])
-# def login():
-#     if current_user.is_authenticated:
-#         abort(404)
-#     user_data = request.get_json()
-#     if not user_data or not 'password' in user_data or not 'email' in user_data:
-#         abort(400)
-#
-#     user = User.query.filter_by(email=user_data['email']).first()
-#     if user and bcrypt.check_password_hash(user.password, user_data['password']):
-#         login_user(user, remember=True)
-#         access_token = create_access_token(identity={'id': user.id})
-#         result = access_token
-#     else:
-#         abort(400)
-#
-#     return result
-#
-#
-# @app.route("/logout", methods=['GET'])
-# @login_required
-# def logout():
-#     print('logging out')
-#     logout_user()
-#     return 'Logged Out', 201
-#
-#
-#
+@app.route("/post/delete", methods=['PUT'])
+@login_required
+def delete_post():
+    data = request.get_json()
+    print(data)
+    if not data \
+            or 'user_name' not in data \
+            or 'post_id' not in data:
+        abort(400)
+
+    Post.query.filter_by(id=data['post_id']).delete()
+    db.session.commit()
+    print('Deleted')
+    return 'Deleted'
