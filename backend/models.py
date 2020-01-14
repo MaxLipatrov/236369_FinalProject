@@ -32,7 +32,8 @@ class Post(db.Model):
 
 class Notification(db.Model):
     __tablename__ = 'notifications'
-    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
     description = db.Column(db.Text)

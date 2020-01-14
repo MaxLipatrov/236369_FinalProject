@@ -320,8 +320,20 @@ def update_post():
     check_post.end_date = data['end_date']
     check_post.about = data['about']
 
-    db.session.commit()
+    # Add notification that post was updated
+    max_id = db.session.query(func.max(Notification.id)).scalar()
+    if max_id:
+        max_id += 1
+    else:
+        max_id = 1
+    note = Notification(id=max_id,
+                        user_name=data['user_name'],
+                        post_id=data['id'],
+                        description='updated',
+                        date=datetime.datetime.utcnow())
 
+    db.session.add(note)
+    db.session.commit()
     return 'Updated'
 
 
@@ -378,3 +390,25 @@ def get_subscriptions(user_id):
     print(post_ids)
     return jsonify(post_ids)
 
+
+@app.route("/notifications/<string:user_id>", methods=['GET'])
+@login_required
+def get_notifications(user_id):
+    subscribes = Subscribe.query.filter_by(user_name=user_id).all()
+    post_ids = [s.post_id for s in subscribes]
+    all_notifications = []
+    for post_id in post_ids:
+        post_notifications = Notification.query.filter_by(post_id=post_id).all()
+        all_notifications = all_notifications + post_notifications
+    res = []
+    for note in all_notifications:
+        user = User.query.get_or_404(note.user_name)
+        res.append({
+            'post_id': note.post_id,
+            'user_name': note.user_name,
+            'date': note.date,
+            'description': note.description,
+            'user_image': url_for('static', filename='profile_pics/' + user.image)
+        })
+    print(res)
+    return jsonify(res)

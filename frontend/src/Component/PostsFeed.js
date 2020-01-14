@@ -51,9 +51,9 @@ export class PostsFeed extends Component {
         console.log("props:" + props);
         super(props);
         this.state = {
-            amount: 0,
             posts: [],
             subscribed_posts: [],
+            notifications: [],
             current_user: '',
 
             /* For a new post form.
@@ -84,10 +84,9 @@ export class PostsFeed extends Component {
 
     refresh_feed() {
         axios.defaults.withCredentials = true;
-        axios.get('http://127.0.0.1:5000/posts/' + this.state.current_user).then((response) => {
+        axios.get('http://127.0.0.1:5000/posts/' + this.state.current_user,).then((response) => {
             this.setState({
                 posts: response.data,
-                amount: response.data.length
             })
         }).catch(err => {
             console.log(err)
@@ -97,6 +96,16 @@ export class PostsFeed extends Component {
         axios.get('http://127.0.0.1:5000/subscriptions/' + this.state.current_user).then((response) => {
             this.setState({
                 subscribed_posts: response.data,
+            })
+        }).catch(err => {
+            console.log(err)
+        });
+
+        axios.defaults.withCredentials = true;
+        axios.get('http://127.0.0.1:5000/notifications/' + this.state.current_user).then((response) => {
+            console.log(response.data)
+            this.setState({
+                notifications: response.data,
             })
         }).catch(err => {
             console.log(err)
@@ -311,13 +320,44 @@ export class PostsFeed extends Component {
                         <br/>
                         <button className="btn btn-md btn-primary" onClick={() => {
                             this.subscribeOrUnsubscribe(post)
-                        }}>{this.state.subscribed_posts.includes(post.id)? "Unsubscribe" : "Subscribe" }
+                        }}>{this.state.subscribed_posts.includes(post.id) ? "Unsubscribe" : "Subscribe"}
                         </button>
                     </td>
                 </tr>
             </div>
         );
     }
+
+
+    renderNotification(note) {
+        return (
+            <div className="col-md-24 mx-auto">
+                <br/>
+                <tr>
+                    <td>
+                        <br/>
+                        <img className="rounded-circle account-img"
+                             src={"http://127.0.0.1:5000" + note.user_image}
+                             height="20" width="20"
+                        />
+                        <a href={"/users/" + note.user_name}>{'     ' + note.user_name}</a>
+                        <text> updated post #{note.post_id} at {note.date.substring(0, note.date.length - 4)}</text>
+                        <br/>
+                        <button className="btn btn-md btn-primary" onClick={() => {
+                        }}>
+                            See post
+                        </button>
+                        {" "}
+                        <button className="btn btn-md btn-primary" onClick={() => {
+                        }}>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </div>
+        );
+    }
+
 
     render() {
 
@@ -327,21 +367,23 @@ export class PostsFeed extends Component {
                 this.renderCurrentUserPost(post) : this.renderOtherUserPost(post);
         });
 
+        let notifications = this.state.notifications.map((note) => {
+            return this.renderNotification(note);
+        });
+
         return (
-            <div className="container">
+            <div className="container" style={{width: "100%"}}>
                 <div className="row">
-                    <div style={{width: "75%"}}>
+                    <div style={{width: "65%"}}>
                         <table className="table col-md-6 mx-auto">
                             <tbody>{new_post}{posts}</tbody>
                         </table>
                     </div>
-                    <div style={{width: "25%"}}>
+                    <div style={{width: "35%"}}>
                         <br/>
-                        <Collapsible trigger="Notifications">
-                            <table className="table col-md-6 mx-auto">
-                                <tbody></tbody>
-                            </table>
-                        </Collapsible>
+                        <table className="table col-md-6 mx-auto">Notifications
+                            <tbody>{notifications}</tbody>
+                        </table>
                     </div>
                 </div>
 

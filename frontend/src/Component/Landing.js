@@ -18,7 +18,7 @@ class Landing extends Component {
 
     render() {
 
-        const ifLoggedIn = (<div className="container">
+        const ifLoggedIn = (<div className="container" style={{width: "100%"}}>
             <PostsFeed  {...this.props}/>
         </div>);
 
