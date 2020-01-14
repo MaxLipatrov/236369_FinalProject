@@ -323,3 +323,58 @@ def update_post():
     db.session.commit()
 
     return 'Updated'
+
+
+@app.route("/post/subscribe", methods=['PUT'])
+@login_required
+def subscribe_to_post():
+    data = request.get_json()
+    print(data)
+    if not data or 'post_id' not in data or 'user_name' not in data:
+        abort(400)
+
+    check_post = Post.query.filter_by(id=data['post_id']).first()
+    if not check_post:
+        return "Post not exist"
+
+    subscribe = Subscribe.query.filter_by(user_name=data['user_name'],
+                                          post_id=data['post_id']).first()
+    if subscribe:
+        Subscribe.query.filter_by(user_name=data['user_name'],
+                                  post_id=data['post_id']).delete()
+        db.session.commit()
+        return 'Unsubscribed'
+    else:
+        new_subscribe = Subscribe(user_name=data['user_name'],
+                                  post_id=data['post_id'])
+        db.session.add(new_subscribe)
+        db.session.commit()
+        return 'Subscribed'
+
+
+@app.route("/post/is_subscribed", methods=['GET'])
+@login_required
+def is_subscribed_to():
+    data = request.get_json()
+    print(data)
+    if not data or 'post_id' not in data or 'user_name' not in data:
+        abort(400)
+    check_post = Post.query.filter_by(id=data['post_id']).first()
+    if not check_post:
+        return "Post not exist"
+    subscribe = Subscribe.query.filter_by(user_name=data['user_name'],
+                                          post_id=data['post_id']).first()
+    if subscribe:
+        return "True"
+    else:
+        return "False"
+
+
+@app.route("/subscriptions/<string:user_id>", methods=['GET'])
+@login_required
+def get_subscriptions(user_id):
+    subscribes = Subscribe.query.filter_by(user_name=user_id).all()
+    post_ids = [s.post_id for s in subscribes]
+    print(post_ids)
+    return jsonify(post_ids)
+

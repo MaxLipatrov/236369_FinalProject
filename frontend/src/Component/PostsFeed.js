@@ -24,6 +24,18 @@ const createNewPost = (post, user_name) => {
         })
 };
 
+const subscribeToPost = (post, user_name) => {
+    axios.defaults.withCredentials = true;
+    return axios
+        .put('http://127.0.0.1:5000/post/subscribe', {
+            user_name: user_name,
+            post_id: post.id
+        })
+        .then(response => {
+            return response.data
+        })
+};
+
 
 const defaultNewPost = {
     start_date: "",
@@ -41,6 +53,7 @@ export class PostsFeed extends Component {
         this.state = {
             amount: 0,
             posts: [],
+            subscribed_posts: [],
             current_user: '',
 
             /* For a new post form.
@@ -79,6 +92,16 @@ export class PostsFeed extends Component {
         }).catch(err => {
             console.log(err)
         });
+
+        axios.defaults.withCredentials = true;
+        axios.get('http://127.0.0.1:5000/subscriptions/' + this.state.current_user).then((response) => {
+            this.setState({
+                subscribed_posts: response.data,
+            })
+        }).catch(err => {
+            console.log(err)
+        });
+
     }
 
     componentWillReceiveProps() {
@@ -206,7 +229,6 @@ export class PostsFeed extends Component {
         );
     }
 
-
     newPost() {
         return (
             <div className="col-md-24 mx-auto">
@@ -223,6 +245,12 @@ export class PostsFeed extends Component {
             </div>);
     }
 
+
+    subscribeOrUnsubscribe(post) {
+        subscribeToPost(post, this.state.current_user).then((res) => {
+            this.refresh_feed();
+        });
+    }
 
     renderCurrentUserPost(post) {
         return (
@@ -280,6 +308,11 @@ export class PostsFeed extends Component {
                         <text>Location: ({post.latitude},{post.longitude})</text>
                         <br/>
                         <text>{post.about}</text>
+                        <br/>
+                        <button className="btn btn-md btn-primary" onClick={() => {
+                            this.subscribeOrUnsubscribe(post)
+                        }}>{this.state.subscribed_posts.includes(post.id)? "Unsubscribe" : "Subscribe" }
+                        </button>
                     </td>
                 </tr>
             </div>
@@ -295,26 +328,66 @@ export class PostsFeed extends Component {
         });
 
         return (
-            <div>
-                <table className="table col-md-6 mx-auto">
-                    <tbody>{new_post}{posts}</tbody>
-                </table>
+            <div className="container">
+                <div className="row">
+                    <div style={{width: "75%"}}>
+                        <table className="table col-md-6 mx-auto">
+                            <tbody>{new_post}{posts}</tbody>
+                        </table>
+                    </div>
+                    <div style={{width: "25%"}}>
+                        <br/>
+                        <Collapsible trigger="Notifications">
+                            <table className="table col-md-6 mx-auto">
+                                <tbody></tbody>
+                            </table>
+                        </Collapsible>
+                    </div>
+                </div>
 
-                {/*<ReactPaginate*/}
-                {/*    breakLabel={'...'}*/}
-                {/*    breakClassName={'break-me'}*/}
-                {/*    pageCount={Math.ceil(this.state.amount / 5)}*/}
-                {/*    marginPagesDisplayed={2}*/}
-                {/*    pageRangeDisplayed={5}*/}
-                {/*    onPageChange={this.handlePageClick}*/}
-                {/*    containerClassName={'pagination'}*/}
-                {/*    subContainerClassName={'pages pagination'}*/}
-                {/*    disabledClassName={'disabled'}*/}
-                {/*    activeClassName={'active'}*/}
-                {/*    forcePage={this.state.current_page - 1}*/}
-                {/*/>*/}
             </div>
+
         )
 
     }
-}
+}/*
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+</div>
+
+
+                    <Collapsible trigger="Notifications">
+                        <br/>
+                        <text>You are trying to push with out giving the task to a valid library. on App.js
+
+                            So: on App.js
+
+                            You are using BrowserRouter which is handling the history of pages by default, with this
+                            react-router-dom function you are relying on BrowserRouter to do this fore you.
+
+                            Use Router instead of BrowserRouter to gain control of you're history, use history to
+                            control the behavior.
+
+                            Use npm history "yarn add history@4.x.x" / "npm i history@4.x.x"
+                            import Route from 'react-router-dom'; //don't use BrowserRouter
+                            import createBrowserHistory from 'createBrowserHistory';
+                            Remember to exoport it !! export const history = createBrowserHistory();
+
+                            4.import history to Dashboard.js 5.import history to Bldgs.js
+
+                            hope this helps !!! @brunomiyamotto
+                        </text>
+                    </Collapsible>
+
+*/

@@ -35,6 +35,7 @@ class Notification(db.Model):
     user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), primary_key=True, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
+    description = db.Column(db.Text)
 
     def __repr__(self):
         return f"Notification('{self.user_name}','{self.post_id}','{self.date}')"
@@ -99,7 +100,6 @@ class User(UserMixin, db.Model):
 
         return self.followers.filter_by(
             follower_name=user.user_name).first() is not None
-
 
     @property
     def password(self):
