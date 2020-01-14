@@ -293,3 +293,33 @@ def delete_post():
     db.session.commit()
     print('Deleted')
     return 'Deleted'
+
+
+@app.route("/post/update", methods=['PUT'])
+@login_required
+def update_post():
+    data = request.get_json()
+    print(data)
+    if not data \
+            or 'id' not in data \
+            or 'user_name' not in data \
+            or 'latitude' not in data \
+            or 'longitude' not in data \
+            or 'start_date' not in data \
+            or 'end_date' not in data \
+            or 'about' not in data:
+        abort(400)
+
+    check_post = Post.query.filter_by(id=data['id']).first()
+    if not check_post:
+        return "Not exist"
+
+    check_post.latitude = data['latitude']
+    check_post.longitude = data['longitude']
+    check_post.start_date = data['start_date']
+    check_post.end_date = data['end_date']
+    check_post.about = data['about']
+
+    db.session.commit()
+
+    return 'Updated'

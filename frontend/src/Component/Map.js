@@ -18,7 +18,6 @@ class MapExample extends Component {
         super(props);
         this.state = {
             currentPos: null,
-            post_id: props.post_id
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -26,15 +25,12 @@ class MapExample extends Component {
 
     handleClick(e) {
         this.setState({currentPos: e.latlng});
-        let lat_input = document.getElementById("latitude-input" + this.state.post_id);
+
+        let lat_input = document.getElementById("latitude-input");
         lat_input.value = e.latlng.lat;
-        lat_input.dispatchEvent(new Event('change', {bubbles: true}));
 
-        let long_input = document.getElementById("longitude-input"+ this.state.post_id);
+        let long_input = document.getElementById("longitude-input");
         long_input.value = e.latlng.lng;
-        long_input.dispatchEvent(new Event('change', {bubbles: true}));
-
-
     }
 
     render() {

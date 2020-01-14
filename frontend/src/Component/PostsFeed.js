@@ -15,21 +15,9 @@ const createNewPost = (post, user_name) => {
             user_name: user_name,
             start_date: post.start_date,
             end_date: post.end_date,
-            latitude: post.latitude,
-            longitude: post.longitude,
+            latitude: document.getElementById("latitude-input").value,
+            longitude: document.getElementById("longitude-input").value,
             about: post.about
-        })
-        .then(response => {
-            return response.data
-        })
-};
-
-const deletePost = (post_id, user_name) => {
-    axios.defaults.withCredentials = true;
-    return axios
-        .put('http://127.0.0.1:5000/post/delete', {
-            user_name: user_name,
-            post_id: post_id
         })
         .then(response => {
             return response.data
@@ -45,30 +33,31 @@ const defaultNewPost = {
     about: "",
 };
 
+
 export class PostsFeed extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        console.log("props:" + props);
+        super(props);
         this.state = {
             amount: 0,
             posts: [],
             current_user: '',
 
-            /* For a new post form */
+            /* For a new post form.
+            * Latitude and longitude are set from JS, hence no event raised.
+            * They are taken with getElementById. */
             start_date: '',
             end_date: '',
-            latitude: 0,
-            longitude: 0,
             about: '',
 
             invalid: 0,
             errors: {
                 date_error: ''
-            }
+            },
         };
         this.onNewPostChange = this.onNewPostChange.bind(this);
         this.onNewPostSubmit = this.onNewPostSubmit.bind(this);
-        this.onPostDelete = this.onPostDelete.bind(this);
-        this.onExistingPostUpdate = this.onExistingPostUpdate.bind(this)
+        this.newPostForm = this.newPostForm.bind(this)
     }
 
     componentDidMount() {
@@ -137,11 +126,9 @@ export class PostsFeed extends Component {
             default:
                 break;
         }
+
+
         this.setState({errors, [name]: value});
-    }
-
-    onExistingPostUpdate(e) {
-
     }
 
 
@@ -154,16 +141,16 @@ export class PostsFeed extends Component {
     }
 
 
-    postForm(post, is_new) {
+    newPostForm(post) {
         return (
-            <form noValidate onSubmit={(is_new) ? this.onNewPostSubmit : this.onExistingPostUpdate}>
+            <form noValidate onSubmit={this.onNewPostSubmit}>
                 <div className="form-group">
                     <label htmlFor="start_date">Start date:</label>
                     <input
+                        id={"start_date-input"}
                         type="date"
                         className="form-control"
                         name="start_date"
-                        value={post.start_date}
                         onChange={this.onNewPostChange}
                     />
                 </div>
@@ -171,36 +158,36 @@ export class PostsFeed extends Component {
                 <div className="form-group">
                     <label htmlFor="end_date">End date:</label>
                     <input
+                        id={"end_date-input"}
                         type="date"
                         className="form-control"
                         name="end_date"
-                        value={post.end_date}
                         onChange={this.onNewPostChange}
                     />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="latitude">Latitude:</label>
-                    <input id={(is_new) ? "latitude-input" : "latitude-input" + post.id}
+                    <input id={"latitude-input"}
                            type="text"
                            className="form-control"
                            name="latitude"
                            value={post.latitude}
-                           onChange={this.onNewPostChange}
+                           readOnly
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="longitude">Longitude:</label>
                     <input
-                        id={(is_new) ? "longitude-input" : "longitude-input" + post.id}
+                        id={"longitude-input"}
                         type="text"
                         className="form-control"
                         name="longitude"
                         value={post.longitude}
-                        onChange={this.onNewPostChange}
+                        readOnly
                     />
                 </div>
-                <MapExample post_id={(is_new) ? "" : post.id} zoom={8}
+                <MapExample zoom={8}
                             center={{lat: post.latitude, lng: post.longitude}}/>
                 <div className="form-group">
                     <label htmlFor="about">About:</label>
@@ -208,13 +195,12 @@ export class PostsFeed extends Component {
                         rows="3"
                         className="form-control"
                         name="about"
-                        value={post.about}
                         placeholder="Write few words about your travel plans"
                         onChange={this.onNewPostChange}
                     />
                 </div>
                 <button type="submit" className="btn btn-lg btn-primary btn-block">
-                    {(is_new) ? "Create!" : "Update!"}
+                    {"Create!"}
                 </button>
             </form>
         );
@@ -230,36 +216,21 @@ export class PostsFeed extends Component {
                         <Collapsible trigger="Click here to share your plans in a new post!"
                                      triggerWhenOpen="Click here to collapse the form!">
                             <br/>
-                            {
-                                this.postForm(defaultNewPost, true)
-                            }
+                            {this.newPostForm(defaultNewPost)}
                         </Collapsible>
                     </td>
                 </tr>
             </div>);
     }
 
-    onPostDelete(post_id) {
-        deletePost(post_id, this.state.current_user).then(r => {
-            this.refresh_feed();
-        });
-    }
 
     renderCurrentUserPost(post) {
         return (
             <div className="col-md-24 mx-auto">
                 <br/>
                 <tr>
-                    <td style={{border: '1px solid', width: '50%'}}>
+                    <td>
                         <text>#{post.id} </text>
-                        <button onClick={() => {
-                            let res = window.confirm('Are you sure you want to delete this post?');
-                            if (res) {
-                                this.onPostDelete(post.id)
-                            }
-                        }}>
-                            Delete
-                        </button>
                         <br/>
                         <img className="rounded-circle account-img"
                              src={"http://127.0.0.1:5000" + post.user_image}
@@ -275,12 +246,11 @@ export class PostsFeed extends Component {
                         <text>Location: ({post.latitude},{post.longitude})</text>
                         <br/>
                         <text>{post.about}</text>
-
-                        <Collapsible trigger={<button>Edit</button>}
-                                     triggerWhenOpen={<button>Collapse</button>}>
-                            {this.postForm(post, false)}
-                        </Collapsible>
-
+                        <br/>
+                        <button className="btn btn-md btn-primary" onClick={() => {
+                            this.props.history.push(`/post/edit`, post)
+                        }}>Edit
+                        </button>
                     </td>
                 </tr>
             </div>
@@ -293,8 +263,9 @@ export class PostsFeed extends Component {
             <div className="col-md-24 mx-auto">
                 <br/>
                 <tr>
-                    <td style={{border: '1px solid', width: '50%'}}>
+                    <td>
                         <text>#{post.id} </text>
+                        <br/>
                         <img className="rounded-circle account-img"
                              src={"http://127.0.0.1:5000" + post.user_image}
                              height="30" width="30"

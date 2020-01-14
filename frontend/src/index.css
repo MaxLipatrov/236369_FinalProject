@@ -86,3 +86,7 @@ ul.nav.nav-tabs {
   height: 200px;
   width: 100%;
 }
+
+td {
+    width: 50%;
+}
