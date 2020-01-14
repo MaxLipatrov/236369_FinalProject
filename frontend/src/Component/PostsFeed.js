@@ -37,6 +37,14 @@ const deletePost = (post_id, user_name) => {
 };
 
 
+const defaultNewPost = {
+    start_date: "",
+    end_date: "",
+    latitude: "52.5095347703273",
+    longitude: "13.38958740234375",
+    about: "",
+};
+
 export class PostsFeed extends Component {
     constructor() {
         super();
@@ -60,7 +68,7 @@ export class PostsFeed extends Component {
         this.onNewPostChange = this.onNewPostChange.bind(this);
         this.onNewPostSubmit = this.onNewPostSubmit.bind(this);
         this.onPostDelete = this.onPostDelete.bind(this);
-
+        this.onExistingPostUpdate = this.onExistingPostUpdate.bind(this)
     }
 
     componentDidMount() {
@@ -132,6 +140,11 @@ export class PostsFeed extends Component {
         this.setState({errors, [name]: value});
     }
 
+    onExistingPostUpdate(e) {
+
+    }
+
+
     validateNewPostForm(errors) {
         let valid = true;
         Object.values(errors).forEach(
@@ -141,73 +154,89 @@ export class PostsFeed extends Component {
     }
 
 
+    postForm(post, is_new) {
+        return (
+            <form noValidate onSubmit={(is_new) ? this.onNewPostSubmit : this.onExistingPostUpdate}>
+                <div className="form-group">
+                    <label htmlFor="start_date">Start date:</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        name="start_date"
+                        value={post.start_date}
+                        onChange={this.onNewPostChange}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="end_date">End date:</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        name="end_date"
+                        value={post.end_date}
+                        onChange={this.onNewPostChange}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="latitude">Latitude:</label>
+                    <input id={(is_new) ? "latitude-input" : "latitude-input" + post.id}
+                           type="text"
+                           className="form-control"
+                           name="latitude"
+                           value={post.latitude}
+                           onChange={this.onNewPostChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="longitude">Longitude:</label>
+                    <input
+                        id={(is_new) ? "longitude-input" : "longitude-input" + post.id}
+                        type="text"
+                        className="form-control"
+                        name="longitude"
+                        value={post.longitude}
+                        onChange={this.onNewPostChange}
+                    />
+                </div>
+                <MapExample post_id={(is_new) ? "" : post.id} zoom={8}
+                            center={{lat: post.latitude, lng: post.longitude}}/>
+                <div className="form-group">
+                    <label htmlFor="about">About:</label>
+                    <textarea
+                        rows="3"
+                        className="form-control"
+                        name="about"
+                        value={post.about}
+                        placeholder="Write few words about your travel plans"
+                        onChange={this.onNewPostChange}
+                    />
+                </div>
+                <button type="submit" className="btn btn-lg btn-primary btn-block">
+                    {(is_new) ? "Create!" : "Update!"}
+                </button>
+            </form>
+        );
+    }
+
+
     newPost() {
-        return (<div className="col-md-24 mx-auto">
-            <br/>
-            <tr>
-                <td style={{border: '1px solid', width: '50%'}}>
-                    <Collapsible trigger="Click here to share your plans in a new post!"
-                                 triggerWhenOpen="Click here to collapse the form!">
-                        <br/>
-                        <form noValidate onSubmit={this.onNewPostSubmit}>
-                            <div className="form-group">
-                                <label htmlFor="start_date">Start date:</label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    name="start_date"
-                                    onChange={this.onNewPostChange}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="end_date">End date:</label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    name="end_date"
-                                    onChange={this.onNewPostChange}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="latitude">Latitude:</label>
-                                <input id="latitude-input"
-                                       type="text"
-                                       className="form-control"
-                                       name="latitude"
-                                       onChange={this.onNewPostChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="longitude">Longitude:</label>
-                                <input
-                                    id="longitude-input"
-                                    type="text"
-                                    className="form-control"
-                                    name="longitude"
-                                    onChange={this.onNewPostChange}
-                                />
-                            </div>
-                            <MapExample zoom={8} center={{lat: 51.5287718, lng: -0.2416804}}/>
-                            <div className="form-group">
-                                <label htmlFor="about">About:</label>
-                                <textarea
-                                    rows="3"
-                                    className="form-control"
-                                    name="about"
-                                    placeholder="Write few words about your travel plans"
-                                    onChange={this.onNewPostChange}
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-lg btn-primary btn-block">
-                                Create!
-                            </button>
-                        </form>
-                    </Collapsible>
-                </td>
-            </tr>
-        </div>);
+        return (
+            <div className="col-md-24 mx-auto">
+                <br/>
+                <tr>
+                    <td style={{border: '1px solid', width: '50%'}}>
+                        <Collapsible trigger="Click here to share your plans in a new post!"
+                                     triggerWhenOpen="Click here to collapse the form!">
+                            <br/>
+                            {
+                                this.postForm(defaultNewPost, true)
+                            }
+                        </Collapsible>
+                    </td>
+                </tr>
+            </div>);
     }
 
     onPostDelete(post_id) {
@@ -216,58 +245,82 @@ export class PostsFeed extends Component {
         });
     }
 
+    renderCurrentUserPost(post) {
+        return (
+            <div className="col-md-24 mx-auto">
+                <br/>
+                <tr>
+                    <td style={{border: '1px solid', width: '50%'}}>
+                        <text>#{post.id} </text>
+                        <button onClick={() => {
+                            let res = window.confirm('Are you sure you want to delete this post?');
+                            if (res) {
+                                this.onPostDelete(post.id)
+                            }
+                        }}>
+                            Delete
+                        </button>
+                        <br/>
+                        <img className="rounded-circle account-img"
+                             src={"http://127.0.0.1:5000" + post.user_image}
+                             height="30" width="30"
+                        />
+                        <a href={"/users/" + post.user_name}>{'     ' + post.user_name}</a>
+                        <text> posted at {post.post_date.substring(0, post.post_date.length - 4)}</text>
+                        <br/>
+                        <text>From {post.start_date.substring(0, post.post_date.length - 13)}</text>
+                        <br/>
+                        <text>Until {post.end_date.substring(0, post.post_date.length - 13)}</text>
+                        <br/>
+                        <text>Location: ({post.latitude},{post.longitude})</text>
+                        <br/>
+                        <text>{post.about}</text>
+
+                        <Collapsible trigger={<button>Edit</button>}
+                                     triggerWhenOpen={<button>Collapse</button>}>
+                            {this.postForm(post, false)}
+                        </Collapsible>
+
+                    </td>
+                </tr>
+            </div>
+
+        );
+    }
+
+    renderOtherUserPost(post) {
+        return (
+            <div className="col-md-24 mx-auto">
+                <br/>
+                <tr>
+                    <td style={{border: '1px solid', width: '50%'}}>
+                        <text>#{post.id} </text>
+                        <img className="rounded-circle account-img"
+                             src={"http://127.0.0.1:5000" + post.user_image}
+                             height="30" width="30"
+                        />
+                        <a href={"/users/" + post.user_name}>{'     ' + post.user_name}</a>
+                        <text> posted at {post.post_date.substring(0, post.post_date.length - 4)}</text>
+                        <br/>
+                        <text>From {post.start_date.substring(0, post.post_date.length - 13)}</text>
+                        <br/>
+                        <text>Until {post.end_date.substring(0, post.post_date.length - 13)}</text>
+                        <br/>
+                        <text>Location: ({post.latitude},{post.longitude})</text>
+                        <br/>
+                        <text>{post.about}</text>
+                    </td>
+                </tr>
+            </div>
+        );
+    }
+
     render() {
 
         let new_post = this.newPost();
-
-
         let posts = this.state.posts.map((post) => {
-            return (
-                <div className="col-md-24 mx-auto">
-                    <br/>
-                    <tr>
-                        <td style={{border: '1px solid', width: '50%'}}>
-                            <text>#{post.id} </text>
-                            {this.state.current_user === post.user_name &&
-                            <button>
-                                <span className="glyphicon glyphicon-edit"/>Edit
-                            </button>
-                            }
-                            {this.state.current_user === post.user_name &&
-                            <button onClick={() => {
-                                let res = window.confirm('Are you sure you want to delete this post?');
-                                if (res) {
-                                    this.onPostDelete(post.id)
-                                }
-                            }}>
-                                Delete
-                            </button>
-                            }
-                            <br/>
-                            <img className="rounded-circle account-img"
-                                 src={"http://127.0.0.1:5000" + post.user_image}
-                                 height="30" width="30"
-                            />
-                            <a href={"/users/" + post.user_name}>{'     ' + post.user_name}</a>
-                            <text> posted at {post.post_date.substring(0, post.post_date.length - 4)}</text>
-
-                            {/*{(this.state.current_user !== this.props.match.params.id) && this.state.isFollowingMe &&*/}
-                            {/*      <h5><Badge pill variant="secondary">Follows you</Badge></h5>}*/}
-
-                            <br/>
-                            <text>From {post.start_date.substring(0, post.post_date.length - 13)}</text>
-                            <br/>
-                            <text>Until {post.end_date.substring(0, post.post_date.length - 13)}</text>
-                            <br/>
-                            <text>Location: ({post.latitude},{post.longitude})</text>
-                            <br/>
-                            <text>{post.about}</text>
-                        </td>
-
-                    </tr>
-                </div>
-
-            );
+            return (this.state.current_user === post.user_name) ?
+                this.renderCurrentUserPost(post) : this.renderOtherUserPost(post);
         });
 
         return (
