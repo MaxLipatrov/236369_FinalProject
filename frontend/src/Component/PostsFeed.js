@@ -114,7 +114,7 @@ export class PostsFeed extends Component {
 
         axios.defaults.withCredentials = true;
         axios.get('http://127.0.0.1:5000/notifications/' + this.state.current_user).then((response) => {
-            console.log(response.data)
+            console.log(response.data);
             this.setState({
                 notifications: response.data,
             })
@@ -359,6 +359,12 @@ export class PostsFeed extends Component {
                         <text> updated post #{note.post_id} at {note.date.substring(0, note.date.length - 4)}</text>
                         <br/>
                         <button className="btn btn-md btn-primary" onClick={() => {
+                            let posts = this.state.posts;
+                            let current = posts.filter((pt) => {
+                                return pt.id === note.post_id;
+                            });
+                            let current_post = current[0];
+                            this.props.history.push(`/post/edit`, current_post)
                         }}>
                             See post
                         </button>
