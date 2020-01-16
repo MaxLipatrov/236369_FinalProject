@@ -36,6 +36,18 @@ const subscribeToPost = (post, user_name) => {
         })
 };
 
+const deleteNotification = (note_id, user_name) => {
+    axios.defaults.withCredentials = true;
+    return axios
+        .put('http://127.0.0.1:5000/notification/delete', {
+            user_name: user_name,
+            note_id: note_id
+        })
+        .then(response => {
+            return response.data
+        })
+};
+
 
 const defaultNewPost = {
     start_date: "",
@@ -162,7 +174,6 @@ export class PostsFeed extends Component {
 
         this.setState({errors, [name]: value});
     }
-
 
     validateNewPostForm(errors) {
         let valid = true;
@@ -349,6 +360,13 @@ export class PostsFeed extends Component {
                         </button>
                         {" "}
                         <button className="btn btn-md btn-primary" onClick={() => {
+                            let res = window.confirm('Are you sure you want to delete this notification?');
+                            if (res) {
+                                deleteNotification(note.id, this.state.current_user)
+                                    .then(r => {
+                                        this.refresh_feed();
+                                    });
+                            }
                         }}>
                             Delete
                         </button>
@@ -392,44 +410,4 @@ export class PostsFeed extends Component {
         )
 
     }
-}/*
-
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-  </div>
-</div>
-
-
-                    <Collapsible trigger="Notifications">
-                        <br/>
-                        <text>You are trying to push with out giving the task to a valid library. on App.js
-
-                            So: on App.js
-
-                            You are using BrowserRouter which is handling the history of pages by default, with this
-                            react-router-dom function you are relying on BrowserRouter to do this fore you.
-
-                            Use Router instead of BrowserRouter to gain control of you're history, use history to
-                            control the behavior.
-
-                            Use npm history "yarn add history@4.x.x" / "npm i history@4.x.x"
-                            import Route from 'react-router-dom'; //don't use BrowserRouter
-                            import createBrowserHistory from 'createBrowserHistory';
-                            Remember to exoport it !! export const history = createBrowserHistory();
-
-                            4.import history to Dashboard.js 5.import history to Bldgs.js
-
-                            hope this helps !!! @brunomiyamotto
-                        </text>
-                    </Collapsible>
-
-*/
+}

@@ -404,6 +404,7 @@ def get_notifications(user_id):
     for note in all_notifications:
         user = User.query.get_or_404(note.user_name)
         res.append({
+            'id': note.id,
             'post_id': note.post_id,
             'user_name': note.user_name,
             'date': note.date,
@@ -412,3 +413,21 @@ def get_notifications(user_id):
         })
     print(res)
     return jsonify(res)
+
+
+@app.route("/notification/delete", methods=['PUT'])
+@login_required
+def delete_notification():
+    data = request.get_json()
+    print(data)
+    if not data \
+            or 'user_name' not in data \
+            or 'note_id' not in data:
+        abort(400)
+
+    note = Notification.query.filter_by(id=data['note_id']).first()
+    if not note:
+        return 'Notification does not exist'
+    Notification.query.filter_by(id=data['note_id']).delete()
+    db.session.commit()
+    return 'Deleted'
