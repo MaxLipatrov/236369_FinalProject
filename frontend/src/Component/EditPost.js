@@ -43,17 +43,16 @@ export class EditPost extends Component {
         super(props);
         this.state = props.location.state;
 
-        this.onNewPostChange = this.onNewPostChange.bind(this);
-        this.onExistingPostUpdate = this.onExistingPostUpdate.bind(this)
-    }
-
-    componentDidMount() {
         const token = localStorage.usertoken;
         if (token) {
             const decoded = jwt_decode(token);
             this.state.current_user = decoded.identity.user_name;
         }
+
+        this.onNewPostChange = this.onNewPostChange.bind(this);
+        this.onExistingPostUpdate = this.onExistingPostUpdate.bind(this)
     }
+
 
     onNewPostChange(e) {
         let errors = this.state.errors;
@@ -113,28 +112,58 @@ export class EditPost extends Component {
             <div className="col-md-24 mx-auto" style={{width: "50%"}}>
                 <form noValidate onSubmit={this.onExistingPostUpdate}>
                     <br/>
-                    <h3>Edit menu of post #{this.state.id}:</h3>
+                    <h3>
+                        {
+                            (this.state.user_name === this.state.current_user) ?
+                                "Edit menu of post #" + this.state.id + ":"
+                                :
+                                "View post #" + this.state.id + ":"
+                        }
+                    </h3>
                     <div className="form-group">
                         <label htmlFor="start_date">Start date:</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            name="start_date"
-                            onChange={this.onNewPostChange}
-                            value={new Date(this.state.start_date).toISOString().split('T')[0]}
-                        />
+                        {
+                            (this.state.user_name === this.state.current_user) ?
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="start_date"
+                                    onChange={this.onNewPostChange}
+                                    value={new Date(this.state.start_date).toISOString().split('T')[0]}
+                                />
+                                :
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="start_date"
+                                    onChange={this.onNewPostChange}
+                                    value={new Date(this.state.start_date).toISOString().split('T')[0]}
+                                    readOnly
+                                />
+                        }
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="end_date">End date:</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            name="end_date"
-                            onChange={this.onNewPostChange}
-                            value={new Date(this.state.end_date).toISOString().split('T')[0]}
+                        {
+                            (this.state.user_name === this.state.current_user) ?
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="end_date"
+                                    onChange={this.onNewPostChange}
+                                    value={new Date(this.state.end_date).toISOString().split('T')[0]}
 
-                        />
+                                />
+                                :
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    name="end_date"
+                                    onChange={this.onNewPostChange}
+                                    value={new Date(this.state.end_date).toISOString().split('T')[0]}
+                                    readOnly
+                                />
+                        }
                     </div>
 
                     <div className="form-group">
@@ -159,35 +188,60 @@ export class EditPost extends Component {
                         />
                     </div>
                     <MapExample zoom={8}
-                                center={{lat: this.state.latitude, lng: this.state.longitude}}/>
+                                center={{lat: this.state.latitude, lng: this.state.longitude}}
+                                mutable={
+                                    (this.state.user_name === this.state.current_user)
+                                }
+                    />
                     <div className="form-group">
                         <label htmlFor="about">About:</label>
-                        <textarea
-                            rows="3"
-                            className="form-control"
-                            name="about"
-                            value={this.state.about}
-                            placeholder="Write few words about your travel plans"
-                            onChange={this.onNewPostChange}
-                        />
+
+                        {
+                            (this.state.user_name === this.state.current_user) ?
+                                <textarea
+                                    rows="3"
+                                    className="form-control"
+                                    name="about"
+                                    value={this.state.about}
+                                    placeholder="Write few words about your travel plans"
+                                    onChange={this.onNewPostChange}
+                                />
+                                :
+                                <textarea
+                                    rows="3"
+                                    className="form-control"
+                                    name="about"
+                                    value={this.state.about}
+                                    placeholder="Write few words about your travel plans"
+                                    onChange={this.onNewPostChange}
+                                    readOnly
+                                />
+                        }
                     </div>
-                    <button type="submit" className="btn btn-lg btn-primary btn-block">
-                        Update!
-                    </button>
+                    {
+                        (this.state.user_name === this.state.current_user) &&
+                        <button type="submit" className="btn btn-lg btn-primary btn-block">
+                            Update!
+                        </button>
+                    }
                     <br/>
                 </form>
-                <button className="btn btn-lg btn-primary btn-block"
-                        onClick={() => {
-                            let res = window.confirm('Are you sure you want to delete this post?');
-                            if (res) {
-                                deletePost(this.state.post_id, this.state.current_user)
-                                    .then(r => {
-                                        this.props.history.push(`/`);
-                                    });
-                            }
-                        }}>
-                    Delete
-                </button>
+                {
+                    (this.state.user_name === this.state.current_user) &&
+                    <button className="btn btn-lg btn-primary btn-block"
+                            onClick={() => {
+                                let res = window.confirm('Are you sure you want to delete this post?');
+                                if (res) {
+                                    deletePost(this.state.post_id, this.state.current_user)
+                                        .then(r => {
+                                            this.props.history.push(`/`);
+                                        });
+                                }
+                            }}>
+                        Delete
+                    </button>
+
+                }
                 <br/>
             </div>
         );

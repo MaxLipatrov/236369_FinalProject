@@ -17,20 +17,23 @@ class MapExample extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPos: null,
+            currentPos: props.center,
         };
         this.handleClick = this.handleClick.bind(this);
+
     }
 
 
     handleClick(e) {
-        this.setState({currentPos: e.latlng});
+        if (this.props.mutable) {
+            this.setState({currentPos: e.latlng});
 
-        let lat_input = document.getElementById("latitude-input");
-        lat_input.value = e.latlng.lat;
+            let lat_input = document.getElementById("latitude-input");
+            lat_input.value = e.latlng.lat;
 
-        let long_input = document.getElementById("longitude-input");
-        long_input.value = e.latlng.lng;
+            let long_input = document.getElementById("longitude-input");
+            long_input.value = e.latlng.lng;
+        }
     }
 
     render() {

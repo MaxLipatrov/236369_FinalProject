@@ -330,6 +330,11 @@ export class PostsFeed extends Component {
                         <text>{post.about}</text>
                         <br/>
                         <button className="btn btn-md btn-primary" onClick={() => {
+                            this.props.history.push(`/post/edit`, post)
+                        }}>View
+                        </button>
+                        {" "}
+                        <button className="btn btn-md btn-primary" onClick={() => {
                             this.subscribeOrUnsubscribe(post)
                         }}>{this.state.subscribed_posts.includes(post.id) ? "Unsubscribe" : "Subscribe"}
                         </button>
