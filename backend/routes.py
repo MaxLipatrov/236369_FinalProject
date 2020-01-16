@@ -99,7 +99,7 @@ def get_user(user_name):
 
 @login_manager.user_loader
 def load_user(user_name):
-    print(user_name + ' is loaded...')
+    print(user_name + ' is attempted to load..')
     return User.query.get(user_name)
 
 
@@ -121,6 +121,7 @@ def login():
         login_user(user, remember=True)
         return create_access_token(identity={'user_name': user.user_name})
     else:
+        print("user not found")
         abort(400)
 
 
@@ -357,7 +358,13 @@ def subscribe_to_post():
         db.session.commit()
         return 'Unsubscribed'
     else:
-        new_subscribe = Subscribe(user_name=data['user_name'],
+        max_id = db.session.query(func.max(Subscribe.id)).scalar()
+        if max_id:
+            max_id += 1
+        else:
+            max_id = 1
+        new_subscribe = Subscribe(id=max_id,
+                                  user_name=data['user_name'],
                                   post_id=data['post_id'])
         db.session.add(new_subscribe)
         db.session.commit()
@@ -431,3 +438,20 @@ def delete_notification():
     Notification.query.filter_by(id=data['note_id']).delete()
     db.session.commit()
     return 'Deleted'
+
+
+@app.route("/delete", methods=['PUT'])
+@login_required
+def delete_user():
+    print("inside delete user")
+    user = User.query.filter_by(user_name=current_user.user_name).first()
+    if not user:
+        return "User does not exist!"
+    else:
+        User.query.filter_by(user_name=current_user.user_name).delete()
+        print("removed")
+
+        db.session.commit()
+        print("committed")
+
+        return "Deleted"

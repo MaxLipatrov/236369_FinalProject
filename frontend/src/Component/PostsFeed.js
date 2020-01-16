@@ -60,7 +60,6 @@ const defaultNewPost = {
 
 export class PostsFeed extends Component {
     constructor(props) {
-        console.log("props:" + props);
         super(props);
         this.state = {
             posts: [],

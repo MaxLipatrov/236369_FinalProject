@@ -200,9 +200,11 @@ export class Profile extends Component {
                 </Nav>
 
                 {this.state.aboutFlag ?
-                    <About id={this.props.match.params.id}
-                           updateInfo={this.updateMenuInfo.bind(this)}
-                           updatePic={this.updateMenuPic.bind(this)}/> : <br/>}
+                    <About
+                        {...this.props}
+                        id={this.props.match.params.id}
+                        updateInfo={this.updateMenuInfo.bind(this)}
+                        updatePic={this.updateMenuPic.bind(this)}/> : <br/>}
                 {this.state.followersFlag ?
                     <Users id={this.props.match.params.id} type={1} flag={this.state.isFollowing}/> : <br/>}
                 {this.state.followingFlag ?

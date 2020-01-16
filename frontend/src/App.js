@@ -10,10 +10,6 @@ import {Redirect} from "react-router-dom";
 import {EditPost} from "./Component/EditPost";
 
 
-// function isLoggedIn() {
-//   return !!localStorage.usertoken;
-// }
-
 function isLoggedIn() {
   return !!localStorage.usertoken;
 

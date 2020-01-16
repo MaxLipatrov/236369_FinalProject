@@ -7,8 +7,8 @@ from backend import db
 
 class Follow(db.Model):
     __tablename__ = 'follows'
-    follower_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), primary_key=True, nullable=False)
-    followed_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), primary_key=True, nullable=False)
+    follower_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), primary_key=True, nullable=False)
+    followed_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), primary_key=True, nullable=False)
     start_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
 
     def __repr__(self):
@@ -18,7 +18,7 @@ class Follow(db.Model):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
+    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
@@ -33,8 +33,8 @@ class Post(db.Model):
 class Notification(db.Model):
     __tablename__ = 'notifications'
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
     description = db.Column(db.Text)
 
@@ -44,8 +44,9 @@ class Notification(db.Model):
 
 class Subscribe(db.Model):
     __tablename__ = 'subscribes'
-    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), primary_key=True, nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
 
 
 class User(UserMixin, db.Model):

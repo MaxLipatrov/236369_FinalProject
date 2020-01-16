@@ -19,7 +19,17 @@ const update = updatedUser => {
         })
 };
 
+const deleteUser = userToDelete => {
 
+    axios.defaults.withCredentials = true;
+    axios.put('http://127.0.0.1:5000/delete')
+        .then(response => {
+            localStorage.removeItem('usertoken');
+            window.location.replace("/");
+        }).catch(err => {
+        console.log(err);
+    });
+};
 
 const validEmailRegex =
     RegExp(/^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
@@ -109,8 +119,9 @@ function EditProfile(props) {
 }
 
 export class About extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        console.log("about props:" + props);
+        super(props);
         this.state = {
             current_user: 0,
             username: '',
@@ -309,6 +320,24 @@ export class About extends Component {
                     <div className="col-md-6 mt-1 mx-auto">
                         {!this.state.flag && <Button className="btn btn-lg btn-block" color="secondary"
                                                      onClick={this.toggleUpdate.bind(this)}>Cancel</Button>}
+                    </div>
+                    <div className="col-md-6 mt-1 mx-auto">
+                        {!this.state.flag &&
+                        <Button className="btn btn-lg btn-block btn-danger" color="secondary"
+                                onClick=
+                                    {
+                                        (e) => {
+                                            e.preventDefault();
+                                            let res = window.confirm('Are you sure you want to delete your account?\n' +
+                                                'This action is not undoable! All your data will be lost!\n' +
+                                                'Proceed?');
+                                            if (res) {
+                                                deleteUser(this.state.current_user);
+
+                                            }
+                                        }
+                                    }
+                        >Delete Account</Button>}
                     </div>
                 </div>
             </div>
