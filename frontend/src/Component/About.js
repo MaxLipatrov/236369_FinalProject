@@ -19,17 +19,25 @@ const update = updatedUser => {
         })
 };
 
-const deleteUser = userToDelete => {
-
-    axios.defaults.withCredentials = true;
-    axios.put('http://127.0.0.1:5000/delete')
+const deleteUser = (user_name) => {
+    return axios.put('http://127.0.0.1:5000/delete/' + user_name)
         .then(response => {
-            localStorage.removeItem('usertoken');
-            window.location.replace("/");
+            return response.data;
         }).catch(err => {
-        console.log(err);
-    });
+            console.log(err);
+        });
 };
+
+const logOutBeforeDelete = () => {
+    axios.defaults.withCredentials = true;
+    return axios.get('http://127.0.0.1:5000/logout').then(response => {
+        return response.data;
+    })
+        .catch(err => {
+            console.log(err)
+        })
+};
+
 
 const validEmailRegex =
     RegExp(/^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
@@ -332,7 +340,13 @@ export class About extends Component {
                                                 'This action is not undoable! All your data will be lost!\n' +
                                                 'Proceed?');
                                             if (res) {
-                                                deleteUser(this.state.current_user);
+                                                let user_name = this.state.username;
+                                                logOutBeforeDelete().then(() => {
+                                                    localStorage.removeItem('usertoken');
+                                                    deleteUser(user_name).then(() => {
+                                                        window.location.replace("/");
+                                                    });
+                                                });
 
                                             }
                                         }

@@ -7,7 +7,7 @@ import Login from './Component/Login'
 import Register from './Component/Register'
 import Profile from './Component/Profile'
 import {Redirect} from "react-router-dom";
-import {EditPost} from "./Component/EditPost";
+import {ViewPost} from "./Component/ViewPost";
 
 
 function isLoggedIn() {
@@ -40,9 +40,9 @@ class App extends Component {
                 isLoggedIn() ? (
                     <Profile {...props} />) : (<Redirect to="/login"/> )
             )}/>
-            <Route exact path="/post/edit" render={(props) => (
+            <Route exact path="/post/view" render={(props) => (
                 isLoggedIn() ? (
-                    <EditPost {...props} />) : (<Redirect to="/login"/> )
+                    <ViewPost {...props} />) : (<Redirect to="/login"/> )
             )}/>
           </div>
         </div>

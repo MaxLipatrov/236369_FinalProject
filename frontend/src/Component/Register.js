@@ -3,6 +3,9 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import Alert from "reactstrap/es/Alert";
 import axios from "axios";
+import MapExample from "./Map";
+import Collapsible from "react-collapsible";
+import {createNewPost} from "./PostsFeed";
 
 export const register = newUser => {
     return axios
@@ -34,10 +37,7 @@ class Register extends Component {
         super();
         this.state = {
             username: '',
-            // first_name: '',
-            // last_name: '',
-            // gender: '',
-            // birth_date: new Date(),
+
             email: '',
             password: '',
             about: '',
@@ -45,25 +45,22 @@ class Register extends Component {
                 username: '',
                 email: '',
                 password: '',
-                // first_name: '',
-                // last_name: '',
-                // gender: 'Please choose your gender',
                 about: '',
             },
             user_taken: 0,
             email_taken: 0,
+
+            combine_form: false,
+
             invalid: 0
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onNewPostChange = this.onNewPostChange.bind(this);
+
     }
 
-    // handleChange = date => {
-    //   this.setState({
-    //     birth_date: date
-    //   });
-    // };
     onChange(e) {
         //  e.preventDefault()
         let errors = this.state.errors;
@@ -78,9 +75,6 @@ class Register extends Component {
                         ? 'Username is not valid!'
                         : '';
                 break;
-            // case 'gender':
-            //     errors.gender='';
-            //     break;
             case 'email':
                 this.setState({email_taken: 0});
                 errors.email =
@@ -94,18 +88,6 @@ class Register extends Component {
                         ? 'Password is not valid!'
                         : '';
                 break;
-            // case 'first_name':
-            // errors.first_name =
-            //   value.length > 20
-            //     ? 'First name is too long'
-            //     : '';
-            // break;
-            // case 'last_name':
-            // errors.last_name =
-            //   value.length > 20
-            //     ? 'Last name is too long'
-            //     : '';
-            // break;
             case 'about':
                 errors.about =
                     value.length > 250
@@ -127,19 +109,31 @@ class Register extends Component {
 
         const newUser = {
             username: this.state.username,
-            // first_name: this.state.first_name,
-            // last_name: this.state.last_name,
-            // gender: this.state.gender,
-            // birth_date: this.state.birth_date,
             email: this.state.email,
             password: this.state.password,
             about: this.state.about
         };
 
         if (validateForm(this.state.errors)) {
+
             register(newUser).then(res => {
                 if (res === 'Created') {
-                    this.props.history.push(`/login`)
+                    if (this.state.combine_form) {
+                        const newPost = {
+                            user_name: this.state.username,
+                            start_date: this.state.start_date,
+                            end_date: this.state.end_date,
+                            latitude: document.getElementById("latitude-input").value,
+                            longitude: document.getElementById("longitude-input").value,
+                            about: this.state.about
+                        };
+                        createNewPost(newPost,this.state.username).then(res => {
+                            /* Add check return value! */
+                            this.props.history.push(`/login`)
+                        });
+                    } else {
+                        this.props.history.push(`/login`)
+                    }
                 }
                 if (res === 'Username Taken') {
                     this.setState({user_taken: 1});
@@ -153,6 +147,31 @@ class Register extends Component {
         } else {
             this.setState({invalid: 1});
         }
+    }
+
+    onNewPostChange(e) {
+        let errors = this.state.errors;
+        const {name, value} = e.target;
+
+        console.log("name: " + name + " value: " + value);
+
+        switch (name) {
+            case 'start_date':
+                break;
+            case 'end_date':
+                break;
+            case 'latitude':
+                break;
+            case 'longitude':
+                break;
+            case 'about':
+                break;
+            default:
+                break;
+        }
+        this.setState({
+            errors, [name]: value
+        });
     }
 
     render() {
@@ -174,59 +193,12 @@ class Register extends Component {
                                     placeholder="Enter your username"
                                     value={this.state.username}
                                     onChange={this.onChange}
-                                    noValidate
                                 />
                                 {this.state.errors.username.length > 0 &&
                                 <span className='error'>{this.state.errors.username}</span>}
                                 {this.state.user_taken > 0 &&
                                 <span className='error'>This username is taken</span>}
                             </div>
-                            {/*<div className="form-group">*/}
-                            {/*<label htmlFor="name">First name</label>*/}
-                            {/*<input*/}
-                            {/*type="text"*/}
-                            {/*className="form-control"*/}
-                            {/*name="first_name"*/}
-                            {/*placeholder="Enter your first name"*/}
-                            {/*value={this.state.first_name}*/}
-                            {/*onChange={this.onChange}*/}
-                            {/*noValidate*/}
-                            {/*/>*/}
-                            {/*{this.state.errors.first_name.length > 0 &&*/}
-                            {/*<span className='error'>{this.state.errors.first_name}</span>}*/}
-                            {/*</div>*/}
-                            {/*<div className="form-group">*/}
-                            {/*<label htmlFor="name">Last name</label>*/}
-                            {/*<input*/}
-                            {/*type="text"*/}
-                            {/*className="form-control"*/}
-                            {/*name="last_name"*/}
-                            {/*placeholder="Enter your last name"*/}
-                            {/*value={this.state.last_name}*/}
-                            {/*onChange={this.onChange}*/}
-                            {/*noValidate*/}
-                            {/*/>*/}
-                            {/*{this.state.errors.last_name.length > 0 &&*/}
-                            {/*<span className='error'>{this.state.errors.last_name}</span>}*/}
-                            {/*</div>*/}
-                            {/*<div className="form-group">*/}
-                            {/*<label htmlFor="name">Your gender</label><br></br>*/}
-                            {/*<input type="radio" name="gender" value="Male" onChange={this.onChange}/> Male<br></br>*/}
-                            {/*<input type="radio" name="gender" value="Female" onChange={this.onChange}/> Female<br></br>*/}
-                            {/*<input type="radio" name="gender" value="other" onChange={this.onChange}/> Other*/}
-                            {/*</div>*/}
-                            {/*{this.state.errors.gender.length > 0 &&*/}
-                            {/*<span className='error'>{this.state.errors.gender}</span>}*/}
-                            {/*<div className="form-group">*/}
-                            {/*<label htmlFor="name">Birth date</label><br></br>*/}
-                            {/*<DatePicker*/}
-                            {/*name="birth_date"*/}
-                            {/*selected={this.state.birth_date}*/}
-                            {/*onChange={this.handleChange}*/}
-                            {/*dateFormat="dd/MM/yyyy"*/}
-                            {/*maxDate={new Date()}*/}
-                            {/*/>*/}
-                            {/*</div>*/}
                             <div className="form-group">
                                 <label htmlFor="email">Email address</label>
                                 <input
@@ -236,7 +208,6 @@ class Register extends Component {
                                     placeholder="Enter email"
                                     value={this.state.email}
                                     onChange={this.onChange}
-                                    noValidate
                                 />
                                 {this.state.errors.email.length > 0 &&
                                 <span className='error'>{this.state.errors.email}</span>}
@@ -253,7 +224,6 @@ class Register extends Component {
                                     placeholder="Password"
                                     value={this.state.password}
                                     onChange={this.onChange}
-                                    noValidate
                                 />
                                 {this.state.errors.password.length > 0 &&
                                 <span className='error'>{this.state.errors.password}</span>}
@@ -262,25 +232,108 @@ class Register extends Component {
                             <div className="form-group">
                                 <label htmlFor="about">About</label>
                                 <textarea
-                                    rows="7"
-                                    type="container"
+                                    rows="3"
                                     className="form-control"
                                     name="about"
                                     placeholder="Write a few words about yourself"
                                     value={this.state.about}
                                     onChange={this.onChange}
-                                    noValidate
                                 />
                                 {this.state.errors.about.length > 0 &&
                                 <span className='error'>{this.state.errors.last_name}</span>}
                             </div>
+                            <div className="col mt-1 mx-auto">
+                                <Collapsible
+                                    trigger={
 
-                            <button
-                                type="submit"
-                                className="btn btn-lg btn-primary btn-block"
-                            >
-                                Register!
-                            </button>
+                                        <button className="btn btn-lg btn-primary btn-block btn-success">
+                                            Add your first post
+                                        </button>
+
+                                    }
+                                    triggerWhenOpen={
+
+                                        <button className="btn btn-lg btn-primary btn-block btn-warning">
+                                            Cancel registration with post
+                                        </button>
+
+                                    }
+                                    onOpen={(e) => {
+                                        this.setState({combine_form: true});
+
+                                    }}
+                                    onClose={(e) => {
+                                        this.setState({combine_form: false});
+                                    }}
+                                >
+                                    <br/>
+                                    <div className="form-group">
+                                        <label htmlFor="start_date">Start date:</label>
+                                        <input
+                                            id={"start_date-input"}
+                                            type="date"
+                                            className="form-control"
+                                            name="start_date"
+                                            onChange={this.onNewPostChange}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="end_date">End date:</label>
+                                        <input
+                                            id={"end_date-input"}
+                                            type="date"
+                                            className="form-control"
+                                            name="end_date"
+                                            onChange={this.onNewPostChange}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="latitude">Latitude:</label>
+                                        <input id={"latitude-input"}
+                                               type="text"
+                                               className="form-control"
+                                               name="latitude"
+                                               readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="longitude">Longitude:</label>
+                                        <input
+                                            id={"longitude-input"}
+                                            type="text"
+                                            className="form-control"
+                                            name="longitude"
+                                            readOnly
+                                        />
+                                    </div>
+                                    <MapExample zoom={8}
+                                                center={{lat: "52.5095347703273", lng: "13.38958740234375"}}
+                                                mutable={true}
+                                    />
+                                    <div className="form-group">
+                                        <label htmlFor="about">About:</label>
+                                        <textarea
+                                            rows="3"
+                                            className="form-control"
+                                            name="about"
+                                            placeholder="Write few words about your travel plans"
+                                            onChange={this.onNewPostChange}
+                                        />
+                                    </div>
+                                </Collapsible>
+                            </div>
+
+                            <div className="col mt-1 mx-auto">
+
+                                <button
+                                    type="submit"
+                                    className="btn btn-lg btn-primary btn-block"
+                                >
+                                    {(this.state.combine_form) ? "Register and post" : "Register"}
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

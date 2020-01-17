@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import Alert from "reactstrap/es/Alert";
 import Collapsible from 'react-collapsible';
 import MapExample from './Map'
+import Button from "react-bootstrap/Button";
 
 const deletePost = (post_id, user_name) => {
     axios.defaults.withCredentials = true;
@@ -38,7 +39,7 @@ const updatePost = (post, user_name) => {
 };
 
 
-export class EditPost extends Component {
+export class ViewPost extends Component {
     constructor(props) {
         super(props);
         this.state = props.location.state;
@@ -75,8 +76,12 @@ export class EditPost extends Component {
                 break;
         }
 
-
-        this.setState({errors, [name]: value});
+        this.setState({
+            errors,
+            [name]: value,
+            latitude: document.getElementById("latitude-input").value,
+            longitude: document.getElementById("longitude-input").value
+        });
     }
 
     onExistingPostUpdate(e) {
@@ -218,17 +223,19 @@ export class EditPost extends Component {
                                 />
                         }
                     </div>
-                    {
-                        (this.state.user_name === this.state.current_user) &&
-                        <button type="submit" className="btn btn-lg btn-primary btn-block">
-                            Update!
-                        </button>
-                    }
-                    <br/>
+                    <div className="col mt-1 mx-auto">
+                        {
+                            (this.state.user_name === this.state.current_user) &&
+                            <Button type="submit" className="btn btn-lg btn-primary btn-block">
+                                Update
+                            </Button>
+                        }
+                    </div>
                 </form>
+                <div className="col mt-1 mx-auto">
                 {
                     (this.state.user_name === this.state.current_user) &&
-                    <button className="btn btn-lg btn-primary btn-block"
+                    <Button className="btn btn-lg btn-primary btn-block btn-danger"
                             onClick={() => {
                                 let res = window.confirm('Are you sure you want to delete this post?');
                                 if (res) {
@@ -239,9 +246,11 @@ export class EditPost extends Component {
                                 }
                             }}>
                         Delete
-                    </button>
+                    </Button>
 
                 }
+                </div>
+
                 <br/>
             </div>
         );

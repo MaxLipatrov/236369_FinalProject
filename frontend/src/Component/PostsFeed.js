@@ -8,7 +8,7 @@ import Alert from "reactstrap/es/Alert";
 import Collapsible from 'react-collapsible';
 import MapExample from './Map'
 
-const createNewPost = (post, user_name) => {
+export const createNewPost = (post, user_name) => {
     axios.defaults.withCredentials = true;
     return axios
         .put('http://127.0.0.1:5000/post/new', {
@@ -49,13 +49,6 @@ const deleteNotification = (note_id, user_name) => {
 };
 
 
-const defaultNewPost = {
-    start_date: "",
-    end_date: "",
-    latitude: "52.5095347703273",
-    longitude: "13.38958740234375",
-    about: "",
-};
 
 
 export class PostsFeed extends Component {
@@ -73,6 +66,7 @@ export class PostsFeed extends Component {
             start_date: '',
             end_date: '',
             about: '',
+
 
             invalid: 0,
             errors: {
@@ -169,9 +163,9 @@ export class PostsFeed extends Component {
             default:
                 break;
         }
-
-
-        this.setState({errors, [name]: value});
+        this.setState({
+            errors, [name]: value
+        });
     }
 
     validateNewPostForm(errors) {
@@ -183,7 +177,7 @@ export class PostsFeed extends Component {
     }
 
 
-    newPostForm(post) {
+    newPostForm() {
         return (
             <form noValidate onSubmit={this.onNewPostSubmit}>
                 <div className="form-group">
@@ -214,7 +208,6 @@ export class PostsFeed extends Component {
                            type="text"
                            className="form-control"
                            name="latitude"
-                           value={post.latitude}
                            readOnly
                     />
                 </div>
@@ -225,12 +218,13 @@ export class PostsFeed extends Component {
                         type="text"
                         className="form-control"
                         name="longitude"
-                        value={post.longitude}
                         readOnly
                     />
                 </div>
                 <MapExample zoom={8}
-                            center={{lat: post.latitude, lng: post.longitude}}/>
+                            center={{lat: "52.5095347703273", lng: "13.38958740234375"}}
+                            mutable={true}
+                />
                 <div className="form-group">
                     <label htmlFor="about">About:</label>
                     <textarea
@@ -257,7 +251,7 @@ export class PostsFeed extends Component {
                         <Collapsible trigger="Click here to share your plans in a new post!"
                                      triggerWhenOpen="Click here to collapse the form!">
                             <br/>
-                            {this.newPostForm(defaultNewPost)}
+                            {this.newPostForm()}
                         </Collapsible>
                     </td>
                 </tr>
@@ -295,7 +289,7 @@ export class PostsFeed extends Component {
                         <text>{post.about}</text>
                         <br/>
                         <button className="btn btn-md btn-primary" onClick={() => {
-                            this.props.history.push(`/post/edit`, post)
+                            this.props.history.push(`/post/view`, post)
                         }}>Edit
                         </button>
                     </td>
@@ -329,7 +323,7 @@ export class PostsFeed extends Component {
                         <text>{post.about}</text>
                         <br/>
                         <button className="btn btn-md btn-primary" onClick={() => {
-                            this.props.history.push(`/post/edit`, post)
+                            this.props.history.push(`/post/view`, post)
                         }}>View
                         </button>
                         {" "}
@@ -364,7 +358,7 @@ export class PostsFeed extends Component {
                                 return pt.id === note.post_id;
                             });
                             let current_post = current[0];
-                            this.props.history.push(`/post/edit`, current_post)
+                            this.props.history.push(`/post/view`, current_post)
                         }}>
                             See post
                         </button>

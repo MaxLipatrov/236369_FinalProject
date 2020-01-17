@@ -243,17 +243,8 @@ def get_posts_of_specific_user(user_id):
             } for post in posts_of_current]
     return res
 
-    # id = db.Column(db.Integer, primary_key=True)
-    # user_name = db.Column(db.String(64), db.ForeignKey('users.user_name'), nullable=False)
-    # # location = db.Column(Geometry('POINT'), nullable=False)
-    # start_date = db.Column(db.DateTime, nullable=False)
-    # end_date = db.Column(db.DateTime, nullable=False)
-    # post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
-    # about = db.Column(db.Text)
-
 
 @app.route("/post/new", methods=['PUT'])
-@login_required
 def add_post():
     data = request.get_json()
     print(data)
@@ -440,15 +431,14 @@ def delete_notification():
     return 'Deleted'
 
 
-@app.route("/delete", methods=['PUT'])
-@login_required
-def delete_user():
+@app.route("/delete/<string:user_id>", methods=['PUT'])
+def delete_user(user_id):
     print("inside delete user")
-    user = User.query.filter_by(user_name=current_user.user_name).first()
+    user = User.query.filter_by(user_name=user_id).first()
     if not user:
         return "User does not exist!"
     else:
-        User.query.filter_by(user_name=current_user.user_name).delete()
+        User.query.filter_by(user_name=user_id).delete()
         print("removed")
 
         db.session.commit()
