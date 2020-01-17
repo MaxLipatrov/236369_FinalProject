@@ -127,7 +127,7 @@ class Register extends Component {
                             longitude: document.getElementById("longitude-input").value,
                             about: this.state.about
                         };
-                        createNewPost(newPost,this.state.username).then(res => {
+                        createNewPost(newPost, this.state.username).then(res => {
                             /* Add check return value! */
                             this.props.history.push(`/login`)
                         });
@@ -311,6 +311,10 @@ class Register extends Component {
                                     <MapExample zoom={8}
                                                 center={{lat: "52.5095347703273", lng: "13.38958740234375"}}
                                                 mutable={true}
+                                                markerOnStart={false}
+                                                useMyMarker={true}
+                                                posts={null}
+                                                other_posts={null}
                                     />
                                     <div className="form-group">
                                         <label htmlFor="about">About:</label>

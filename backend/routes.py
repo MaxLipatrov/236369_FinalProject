@@ -445,3 +445,60 @@ def delete_user(user_id):
         print("committed")
 
         return "Deleted"
+
+
+@app.route('/search/posts/followed/<string:user_id>', methods=['GET'])
+@login_required
+def get_followed_posts(user_id):
+    """ This route returns posts for travel - only of these he follows """
+    print('user id: ' + user_id)
+    User.query.get_or_404(user_id)
+    res = []
+
+    f = Follow.query.filter_by(follower_name=user_id).all()
+    users_names = [item.followed_name for item in f]
+    for user_name in users_names:
+        user_posts = get_posts_of_specific_user(user_name)
+        res = res + user_posts
+    print(res)
+    return jsonify(res)
+
+
+@app.route('/search/posts/other/<string:user_id>', methods=['POST'])
+@login_required
+def get_not_followed_posts_between(user_id):
+    """ This route returns posts between given dates - for not followed """
+    User.query.get_or_404(user_id)
+
+    data = request.get_json()
+    print(data)
+    if not data \
+            or 'start_date' not in data \
+            or 'end_date' not in data:
+        abort(400)
+
+    # Get names of all users which I follow
+    f = Follow.query.filter_by(follower_name=user_id).all()
+    followed_user_names = [item.followed_name for item in f]
+    print('followed: ' + str(followed_user_names))
+    followed_user_names.append(user_id)
+    print('appended: ' + str(followed_user_names))
+
+    # Get all users which I don't follow them
+    u = db.session.query(User).all()
+
+    other_users_names = [item.user_name for item in u if item.user_name not in followed_user_names]
+    print('other users:' + str(other_users_names))
+
+    # Get all their posts
+    others_posts = []
+    for user_name in other_users_names:
+        user_posts = get_posts_of_specific_user(user_name)
+        others_posts = others_posts + user_posts
+
+    # Filter these which date
+    res = [post for post in others_posts if date_between(start_date_arg=data['start_date'],
+                                                         end_date_arg=data['end_date'], start_date=post['start_date'],
+                                                         end_date=post['end_date'])]
+    print(res)
+    return jsonify(res)

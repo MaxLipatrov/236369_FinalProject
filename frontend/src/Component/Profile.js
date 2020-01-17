@@ -199,7 +199,7 @@ export class Profile extends Component {
                     </NavItem>
                 </Nav>
 
-                {this.state.aboutFlag ?
+                {(this.state.aboutFlag && this.state.isFollowing) ?
                     <About
                         {...this.props}
                         id={this.props.match.params.id}

@@ -49,8 +49,6 @@ const deleteNotification = (note_id, user_name) => {
 };
 
 
-
-
 export class PostsFeed extends Component {
     constructor(props) {
         super(props);
@@ -224,6 +222,10 @@ export class PostsFeed extends Component {
                 <MapExample zoom={8}
                             center={{lat: "52.5095347703273", lng: "13.38958740234375"}}
                             mutable={true}
+                            markerOnStart={false}
+                            useMyMarker={true}
+                            posts={null}
+                            other_posts={null}
                 />
                 <div className="form-group">
                     <label htmlFor="about">About:</label>

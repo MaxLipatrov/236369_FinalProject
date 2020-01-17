@@ -83,6 +83,13 @@ class Navbar extends Component {
                         Profile
                     </Link>
                 </li>
+                <li className="nav-item">
+                    <Link to={"/search"} className="nav-link">
+                        Search for travels
+                    </Link>
+                </li>
+
+
                 <Form inline onSubmit={e => {
                     e.preventDefault();
                     this.get_user()

@@ -197,6 +197,10 @@ export class ViewPost extends Component {
                                 mutable={
                                     (this.state.user_name === this.state.current_user)
                                 }
+                                markerOnStart={true}
+                                useMyMarker={true}
+                                posts={null}
+                                other_posts={null}
                     />
                     <div className="form-group">
                         <label htmlFor="about">About:</label>
@@ -233,22 +237,22 @@ export class ViewPost extends Component {
                     </div>
                 </form>
                 <div className="col mt-1 mx-auto">
-                {
-                    (this.state.user_name === this.state.current_user) &&
-                    <Button className="btn btn-lg btn-primary btn-block btn-danger"
-                            onClick={() => {
-                                let res = window.confirm('Are you sure you want to delete this post?');
-                                if (res) {
-                                    deletePost(this.state.post_id, this.state.current_user)
-                                        .then(r => {
-                                            this.props.history.push(`/`);
-                                        });
-                                }
-                            }}>
-                        Delete
-                    </Button>
+                    {
+                        (this.state.user_name === this.state.current_user) &&
+                        <Button className="btn btn-lg btn-primary btn-block btn-danger"
+                                onClick={() => {
+                                    let res = window.confirm('Are you sure you want to delete this post?');
+                                    if (res) {
+                                        deletePost(this.state.id, this.state.current_user)
+                                            .then(r => {
+                                                this.props.history.push(`/`);
+                                            });
+                                    }
+                                }}>
+                            Delete
+                        </Button>
 
-                }
+                    }
                 </div>
 
                 <br/>

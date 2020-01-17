@@ -2,10 +2,92 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74501f04-d39a-43af-af37-f4174667057f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Final_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Final_Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Component/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/Users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/@babel/runtime/helpers/esm/objectSpread.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/@babel/runtime/helpers/esm/objectSpread.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/@babel/runtime/helpers/objectSpread.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/@babel/runtime/helpers/objectSpread.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/@babel/runtime/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/@babel/runtime/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/xhr.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/xhr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/Axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/dispatchRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/dispatchRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/mergeConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/mergeConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/defaults.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/defaults.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/isURLSameOrigin.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/isURLSameOrigin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/eslint/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/eslint/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/inquirer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/inquirer/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/is-buffer/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/is-buffer/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/is-buffer/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/is-buffer/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/is-buffer/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.cjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.cjs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.cjs.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.cjs.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.es.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.es.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.es.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.es.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.full.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/dist/reactstrap.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/Carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/Carousel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/Dropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/Dropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/DropdownItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/DropdownItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/DropdownMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/DropdownMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/DropdownToggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/DropdownToggle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/Modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/TooltipPopoverWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/TooltipPopoverWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/es/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/Carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/Carousel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/Dropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/Dropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/DropdownItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/DropdownItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/DropdownMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/DropdownMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/DropdownToggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/DropdownToggle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/Modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/TooltipPopoverWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/TooltipPopoverWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/lib/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/Carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/Carousel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/Dropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/Dropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/DropdownItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/DropdownItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/DropdownMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/DropdownMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/DropdownToggle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/DropdownToggle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/Modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/TooltipPopoverWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/TooltipPopoverWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/Dropdown.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/Dropdown.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/DropdownItem.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/DropdownItem.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/DropdownMenu.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/DropdownMenu.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/DropdownToggle.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/DropdownToggle.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/Modal.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/Modal.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/utils.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/__tests__/utils.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/reactstrap/src/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Component/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Component/Navbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/Navbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Component/PostsFeed.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/PostsFeed.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Component/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Component/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Component/ViewPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Component/ViewPost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,17 +104,12 @@
       <list>
         <option value="Flask Main" />
         <option value="Python Script" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="14" />
-    <option name="y" value="30" />
-    <option name="width" value="1680" />
-    <option name="height" value="944" />
   </component>
   <component name="ProjectId" id="1VbqXzuU3qCkdbuZm1J7Q2Zrnwo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -171,7 +248,6 @@
       <list>
         <item itemvalue="Flask server.Flask (backend/__init__.py)" />
         <item itemvalue="Python.__init__" />
-        <item itemvalue="Flask server.Flask (FlaskApp/__init__.py)" />
         <item itemvalue="Python.routes" />
         <item itemvalue="npm.start" />
       </list>
@@ -207,6 +283,10 @@
       <workItem from="1577878894453" duration="10391000" />
       <workItem from="1577965838204" duration="685000" />
       <workItem from="1577978778924" duration="19583000" />
+      <workItem from="1579011124339" duration="10991000" />
+      <workItem from="1579022319212" duration="16379000" />
+      <workItem from="1579185055548" duration="33380000" />
+      <workItem from="1579266526480" duration="27943000" />
     </task>
     <task id="LOCAL-00001" summary="Modified frontend files  - Login.js, Register.js are the main differences. they now support the data we want to use.&#10;some parameters in __init__ were also changed to meed rthe spec of Neta's example.&#10;look at the login information the postgres, i've messed up with it.">
       <created>1577888162708</created>
@@ -231,44 +311,50 @@
     </state>
     <state x="456" y="123" width="424" height="484" key="FileChooserDialogImpl/0.27.1366.676@0.27.1366.676" timestamp="1577533643926" />
     <state x="641" y="123" key="FileChooserDialogImpl/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1577981805593" />
-    <state width="935" height="260" key="GridCell.Tab.0.bottom" timestamp="1578002456377">
-      <screen x="0" y="27" width="1920" height="676" />
+    <state width="1111" height="126" key="GridCell.Tab.0.bottom" timestamp="1579294205826">
+      <screen x="0" y="27" width="1366" height="676" />
     </state>
-    <state width="1320" height="151" key="GridCell.Tab.0.bottom/0.27.1366.676@0.27.1366.676" timestamp="1577966534864" />
+    <state width="1111" height="126" key="GridCell.Tab.0.bottom/0.27.1366.676@0.27.1366.676" timestamp="1579294205826" />
     <state width="1874" height="252" key="GridCell.Tab.0.bottom/0.27.3286.676@0.27.3286.676" timestamp="1577783398242" />
-    <state width="935" height="260" key="GridCell.Tab.0.bottom/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1578002456377" />
-    <state width="935" height="260" key="GridCell.Tab.0.center" timestamp="1578002456377">
-      <screen x="0" y="27" width="1920" height="676" />
+    <state width="1113" height="111" key="GridCell.Tab.0.bottom/1009.1080.1366.768/0.27.1366.676@0.27.1366.676" timestamp="1579221235103" />
+    <state width="1583" height="165" key="GridCell.Tab.0.bottom/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1579038947491" />
+    <state width="1111" height="126" key="GridCell.Tab.0.center" timestamp="1579294205826">
+      <screen x="0" y="27" width="1366" height="676" />
     </state>
-    <state width="1320" height="151" key="GridCell.Tab.0.center/0.27.1366.676@0.27.1366.676" timestamp="1577966534864" />
+    <state width="1111" height="126" key="GridCell.Tab.0.center/0.27.1366.676@0.27.1366.676" timestamp="1579294205826" />
     <state width="1874" height="252" key="GridCell.Tab.0.center/0.27.3286.676@0.27.3286.676" timestamp="1577783398241" />
-    <state width="935" height="260" key="GridCell.Tab.0.center/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1578002456377" />
-    <state width="935" height="260" key="GridCell.Tab.0.left" timestamp="1578002456377">
-      <screen x="0" y="27" width="1920" height="676" />
+    <state width="1113" height="111" key="GridCell.Tab.0.center/1009.1080.1366.768/0.27.1366.676@0.27.1366.676" timestamp="1579221235103" />
+    <state width="1583" height="165" key="GridCell.Tab.0.center/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1579038947491" />
+    <state width="1111" height="126" key="GridCell.Tab.0.left" timestamp="1579294205826">
+      <screen x="0" y="27" width="1366" height="676" />
     </state>
-    <state width="1320" height="151" key="GridCell.Tab.0.left/0.27.1366.676@0.27.1366.676" timestamp="1577966534864" />
+    <state width="1111" height="126" key="GridCell.Tab.0.left/0.27.1366.676@0.27.1366.676" timestamp="1579294205826" />
     <state width="1874" height="252" key="GridCell.Tab.0.left/0.27.3286.676@0.27.3286.676" timestamp="1577783398241" />
-    <state width="935" height="260" key="GridCell.Tab.0.left/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1578002456377" />
-    <state width="935" height="260" key="GridCell.Tab.0.right" timestamp="1578002456377">
-      <screen x="0" y="27" width="1920" height="676" />
+    <state width="1113" height="111" key="GridCell.Tab.0.left/1009.1080.1366.768/0.27.1366.676@0.27.1366.676" timestamp="1579221235103" />
+    <state width="1583" height="165" key="GridCell.Tab.0.left/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1579038947491" />
+    <state width="1111" height="126" key="GridCell.Tab.0.right" timestamp="1579294205826">
+      <screen x="0" y="27" width="1366" height="676" />
     </state>
-    <state width="1320" height="151" key="GridCell.Tab.0.right/0.27.1366.676@0.27.1366.676" timestamp="1577966534864" />
+    <state width="1111" height="126" key="GridCell.Tab.0.right/0.27.1366.676@0.27.1366.676" timestamp="1579294205826" />
     <state width="1874" height="252" key="GridCell.Tab.0.right/0.27.3286.676@0.27.3286.676" timestamp="1577783398242" />
-    <state width="935" height="260" key="GridCell.Tab.0.right/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1578002456377" />
+    <state width="1113" height="111" key="GridCell.Tab.0.right/1009.1080.1366.768/0.27.1366.676@0.27.1366.676" timestamp="1579221235103" />
+    <state width="1583" height="165" key="GridCell.Tab.0.right/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1579038947491" />
     <state x="67" y="27" width="1012" height="676" key="SettingsEditor" timestamp="1577965984204">
       <screen x="0" y="27" width="1366" height="676" />
     </state>
     <state x="67" y="27" width="1012" height="676" key="SettingsEditor/0.27.1366.676@0.27.1366.676" timestamp="1577965984204" />
     <state x="353" y="27" width="1012" height="676" key="SettingsEditor/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1577727850970" />
-    <state x="606" y="27" width="707" height="676" key="find.popup" timestamp="1577998694397">
-      <screen x="0" y="27" width="1920" height="676" />
+    <state x="431" y="27" width="707" height="676" key="find.popup" timestamp="1579293746633">
+      <screen x="0" y="27" width="1366" height="676" />
     </state>
+    <state x="431" y="27" width="707" height="676" key="find.popup/0.27.1366.676@0.27.1366.676" timestamp="1579293746633" />
+    <state x="643" y="27" width="707" height="676" key="find.popup/1009.1080.1366.768/0.27.1366.676@0.27.1366.676" timestamp="1579216096253" />
     <state x="606" y="27" width="707" height="676" key="find.popup/1920.0.1366.768/0.27.1920.676@0.27.1920.676" timestamp="1577998694397" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Final_Project$Flask__FlaskApp___init___py_.coverage" NAME="Flask (FlaskApp/__init__.py) Coverage Results" MODIFIED="1577966152941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Final_Project$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1577991363964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Final_Project$Flask__backend___init___py_.coverage" NAME="Flask (backend/__init__.py) Coverage Results" MODIFIED="1578002456363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Final_Project$Flask__backend___init___py_.coverage" NAME="Flask (backend/__init__.py) Coverage Results" MODIFIED="1579294205799" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Final_Project$Flask__app_py_.coverage" NAME="Flask (FlaskApp/__init__.py) Coverage Results" MODIFIED="1577736518958" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
