@@ -11,7 +11,8 @@ class Navbar extends Component {
     state = {
         current_user: 0,
         username: '',
-        search_msg: 'Search for a user'
+        search_msg: 'Search for a user',
+        user_image: ''
     };
 
     get_user() {
@@ -51,9 +52,14 @@ class Navbar extends Component {
         const token = localStorage.usertoken;
         if (token) {
             const decoded = jwt_decode(token);
-            this.setState({
-                current_user: decoded.identity.user_name
+            axios.defaults.withCredentials = true;
+            axios.get('http://127.0.0.1:5000/users/' + decoded.identity.user_name).then((response) => {
+                this.setState({
+                    current_user: decoded.identity.user_name,
+                    user_image: response.data.image_file
+                });
             });
+
         }
 
     }
@@ -78,11 +84,6 @@ class Navbar extends Component {
 
         const userLink = (
             <ul className="navbar-nav">
-                <li className="nav-item">
-                    <Link to={"/users/" + this.state.current_user} className="nav-link">
-                        Profile
-                    </Link>
-                </li>
                 <li className="nav-item">
                     <Link to={"/search"} className="nav-link">
                         Search for travels
@@ -130,6 +131,18 @@ class Navbar extends Component {
                         id="navbarsExample10"
                     >
                         <ul className="navbar-nav">
+                            {
+                                localStorage.usertoken &&
+                                <li className="nav-item">
+                                    <Link to={"/users/" + this.state.current_user} className="nav-link">
+                                        <img className="rounded-circle account-img"
+                                             src={"http://127.0.0.1:5000" + this.state.user_image}
+                                             height="20" width="20">
+                                        </img>{" " + this.state.current_user}
+                                    </Link>
+
+                                </li>
+                            }
                             <li className="nav-item">
                                 <Link to="/" className="nav-link">
                                     Home

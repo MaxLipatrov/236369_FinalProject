@@ -141,7 +141,7 @@ class MapExample extends Component {
                     <ReactLeafletSearchComponent
                         provider="OpenStreetMap"
                         position="topleft"
-                        inputPlaceholder="Enter search destination"
+                        inputPlaceholder="Where do want to go?"
                         showMarker={true}
                         zoom={5}
                         showPopup={true}
@@ -153,7 +153,7 @@ class MapExample extends Component {
                             long_input.value = latlng.lng;
                         }}
                         closeResultsOnClick={true}
-                        openSearchOnLoad={true}
+                        openSearchOnLoad={false}
                     />
                 </Map>
             </div>

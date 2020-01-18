@@ -174,7 +174,6 @@ export class PostsFeed extends Component {
         return valid;
     }
 
-
     newPostForm() {
         return (
             <form noValidate onSubmit={this.onNewPostSubmit}>
@@ -259,7 +258,6 @@ export class PostsFeed extends Component {
                 </tr>
             </div>);
     }
-
 
     subscribeOrUnsubscribe(post) {
         subscribeToPost(post, this.state.current_user).then((res) => {

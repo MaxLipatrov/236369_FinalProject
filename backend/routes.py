@@ -64,7 +64,7 @@ def update_user(user_name):
 @login_required
 def update_image(user_name):
     data = request.files
-    print(data)
+
     if not data or 'file' not in data:
         abort(400)
     if data['file'] == '':
@@ -78,7 +78,7 @@ def update_image(user_name):
 
 @app.route("/users/<string:user_name>", methods=['GET'])
 def get_user(user_name):
-    print('querying for user')
+
     user = User.query.get_or_404(user_name)
     if user.image is None:
         image_file = url_for('static', filename='profile_pics/default.jpg')
@@ -88,7 +88,6 @@ def get_user(user_name):
     about = user.about
     if about is None:
         about = 'No about information'
-
     return jsonify({'user_name': user.user_name,
                     'email': user.email,
                     'image_file': image_file,
@@ -105,14 +104,14 @@ def load_user(user_name):
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    print("inside login..")
+
     if current_user.is_authenticated:
-        print("already authenticated..")
+        # print("already authenticated..")
         abort(404)
     user_data = request.get_json()
 
     if not user_data or 'password' not in user_data or 'email' not in user_data:
-        print("no enough parameters")
+        # print("no enough parameters")
         abort(400)
 
     user = User.query.filter_by(email=user_data['email']).first()
@@ -121,7 +120,7 @@ def login():
         login_user(user, remember=True)
         return create_access_token(identity={'user_name': user.user_name})
     else:
-        print("user not found")
+        # print("user not found")
         abort(400)
 
 
@@ -152,7 +151,7 @@ def register():
 @app.route('/logout')
 @login_required
 def logout():
-    print('Logging out')
+    # print('Logging out')
     logout_user()
     return 'Logged Out', 201
 
@@ -180,6 +179,7 @@ def is_following_me(user_id):
 @app.route('/follow/<string:user_id>', methods=['POST', 'DELETE'])
 @login_required
 def follow(user_id):
+
     print('follow called')
     user = User.query.get_or_404(user_id)
     if current_user.is_following(user):
@@ -215,7 +215,7 @@ def followers(user_id):
 @app.route('/posts/<string:user_id>', methods=['GET'])
 @login_required
 def get_posts(user_id):
-    """ This route returns posts for feed - both his and of these he follows """
+    """ This route returns posts for feed - both his and of those he follows """
     User.query.get_or_404(user_id)
     res = get_posts_of_specific_user(user_id)
 
@@ -224,6 +224,8 @@ def get_posts(user_id):
     for user_name in users_names:
         user_posts = get_posts_of_specific_user(user_name)
         res = res + user_posts
+    res.sort(key=lambda post: post['post_date'].strftime("%Y/%m/%d, %H:%M:%S"), reverse=True)
+
     return jsonify(res)
 
 
@@ -383,41 +385,46 @@ def is_subscribed_to():
 @app.route("/subscriptions/<string:user_id>", methods=['GET'])
 @login_required
 def get_subscriptions(user_id):
-    subscribes = Subscribe.query.filter_by(user_name=user_id).all()
-    post_ids = [s.post_id for s in subscribes]
-    print(post_ids)
-    return jsonify(post_ids)
-
+    if user_id:
+        subscribes = Subscribe.query.filter_by(user_name=user_id).all()
+        post_ids = [s.post_id for s in subscribes]
+        # print(post_ids)
+        return jsonify(post_ids)
+    else:
+        abort(404)
 
 @app.route("/notifications/<string:user_id>", methods=['GET'])
 @login_required
 def get_notifications(user_id):
-    subscribes = Subscribe.query.filter_by(user_name=user_id).all()
-    post_ids = [s.post_id for s in subscribes]
-    all_notifications = []
-    for post_id in post_ids:
-        post_notifications = Notification.query.filter_by(post_id=post_id).all()
-        all_notifications = all_notifications + post_notifications
-    res = []
-    for note in all_notifications:
-        user = User.query.get_or_404(note.user_name)
-        res.append({
-            'id': note.id,
-            'post_id': note.post_id,
-            'user_name': note.user_name,
-            'date': note.date,
-            'description': note.description,
-            'user_image': url_for('static', filename='profile_pics/' + user.image)
-        })
-    print(res)
-    return jsonify(res)
+    if user_id:
+        subscribes = Subscribe.query.filter_by(user_name=user_id).all()
+        post_ids = [s.post_id for s in subscribes]
+        all_notifications = []
+        for post_id in post_ids:
+            post_notifications = Notification.query.filter_by(post_id=post_id).all()
+            all_notifications = all_notifications + post_notifications
+        res = []
+        for note in all_notifications:
+            user = User.query.get_or_404(note.user_name)
+            res.append({
+                'id': note.id,
+                'post_id': note.post_id,
+                'user_name': note.user_name,
+                'date': note.date,
+                'description': note.description,
+                'user_image': url_for('static', filename='profile_pics/' + user.image)
+            })
+        res.sort(key=lambda n: n['date'].strftime("%Y/%m/%d, %H:%M:%S"), reverse=True)
+        return jsonify(res)
+    else:
+        abort(404)
 
 
 @app.route("/notification/delete", methods=['PUT'])
 @login_required
 def delete_notification():
     data = request.get_json()
-    print(data)
+    # print(data)
     if not data \
             or 'user_name' not in data \
             or 'note_id' not in data:
@@ -433,16 +440,13 @@ def delete_notification():
 
 @app.route("/delete/<string:user_id>", methods=['PUT'])
 def delete_user(user_id):
-    print("inside delete user")
+    # print("inside delete user")
     user = User.query.filter_by(user_name=user_id).first()
     if not user:
         return "User does not exist!"
     else:
         User.query.filter_by(user_name=user_id).delete()
-        print("removed")
-
         db.session.commit()
-        print("committed")
 
         return "Deleted"
 
@@ -451,7 +455,6 @@ def delete_user(user_id):
 @login_required
 def get_followed_posts(user_id):
     """ This route returns posts for travel - only of these he follows """
-    print('user id: ' + user_id)
     User.query.get_or_404(user_id)
     res = []
 
@@ -460,7 +463,7 @@ def get_followed_posts(user_id):
     for user_name in users_names:
         user_posts = get_posts_of_specific_user(user_name)
         res = res + user_posts
-    print(res)
+    # print(res)
     return jsonify(res)
 
 
@@ -480,15 +483,12 @@ def get_not_followed_posts_between(user_id):
     # Get names of all users which I follow
     f = Follow.query.filter_by(follower_name=user_id).all()
     followed_user_names = [item.followed_name for item in f]
-    print('followed: ' + str(followed_user_names))
     followed_user_names.append(user_id)
-    print('appended: ' + str(followed_user_names))
 
     # Get all users which I don't follow them
     u = db.session.query(User).all()
 
     other_users_names = [item.user_name for item in u if item.user_name not in followed_user_names]
-    print('other users:' + str(other_users_names))
 
     # Get all their posts
     others_posts = []

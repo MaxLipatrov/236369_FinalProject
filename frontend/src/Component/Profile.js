@@ -26,15 +26,6 @@ export class Profile extends Component {
         about: ''
     };
 
-    showPosts(e) {
-        e.preventDefault();
-        this.setState({
-            postsFlag: 1,
-            aboutFlag: 0,
-            followingFlag: 0,
-            followersFlag: 0
-        })
-    }
 
     showAbout() {
         this.setState({
@@ -42,24 +33,6 @@ export class Profile extends Component {
             aboutFlag: 1,
             followingFlag: 0,
             followersFlag: 0
-        })
-    }
-
-    showFollowing() {
-        this.setState({
-            postsFlag: 0,
-            aboutFlag: 0,
-            followingFlag: 1,
-            followersFlag: 0
-        })
-    }
-
-    showFollowers() {
-        this.setState({
-            postsFlag: 0,
-            aboutFlag: 0,
-            followingFlag: 0,
-            followersFlag: 1
         })
     }
 
@@ -199,7 +172,7 @@ export class Profile extends Component {
                     </NavItem>
                 </Nav>
 
-                {(this.state.aboutFlag && this.state.isFollowing) ?
+                {(this.state.aboutFlag && (this.state.isFollowing || (this.state.current_user === this.props.match.params.id))) ?
                     <About
                         {...this.props}
                         id={this.props.match.params.id}
