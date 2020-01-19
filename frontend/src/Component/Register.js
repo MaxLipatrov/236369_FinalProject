@@ -52,7 +52,21 @@ class Register extends Component {
 
             combine_form: false,
 
-            invalid: 0
+            /* For a new post form.
+            * Latitude and longitude are set from JS, hence no event raised.
+            * They are taken with getElementById. */
+            start_date: '',
+            end_date: '',
+            about_post: '',
+            pos: {lat: "52.5095347703273", lng: "13.38958740234375"},
+            markerOnStart: false,
+
+            invalid: 0,
+
+            no_start_date: 0,
+            no_end_date: 0,
+            start_later_than_end: 0,
+            no_destination: 0,
         };
 
         this.onChange = this.onChange.bind(this);
@@ -103,9 +117,42 @@ class Register extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.setState({invalid: 0});
-        this.setState({user_taken: 0});
-        this.setState({email_taken: 0});
+
+        let new_state = this.state;
+
+        new_state.invalid = 0;
+        new_state.user_taken = 0;
+        new_state.email_taken = 0;
+
+        if (new_state.combine_form) {
+            if (document.getElementById("start_date-input").value === '') {
+                new_state.invalid = 1;
+                new_state.no_start_date = 1;
+            }
+            if (document.getElementById("end_date-input").value === '') {
+                new_state.invalid = 1;
+                new_state.no_end_date = 1;
+            }
+
+            if (this.startDateAfterEndDate()) {
+                new_state.invalid = 1;
+                new_state.start_later_than_end = 1;
+            }
+            if (document.getElementById("latitude-input").value === '' ||
+                document.getElementById("longitude-input").value === '') {
+                new_state.invalid = 1;
+                new_state.no_destination = 1;
+            } else {
+                new_state.no_destination = 0;
+                new_state.pos = {
+                    lat: document.getElementById("latitude-input").value,
+                    lng: document.getElementById("longitude-input").value
+                };
+            }
+        }
+
+        this.setState(new_state);
+
 
         const newUser = {
             username: this.state.username,
@@ -114,7 +161,7 @@ class Register extends Component {
             about: this.state.about
         };
 
-        if (validateForm(this.state.errors)) {
+        if (validateForm(this.state.errors) && !this.state.invalid) {
 
             register(newUser).then(res => {
                 if (res === 'Created') {
@@ -150,28 +197,42 @@ class Register extends Component {
     }
 
     onNewPostChange(e) {
-        let errors = this.state.errors;
         const {name, value} = e.target;
 
-        console.log("name: " + name + " value: " + value);
-
+        let new_state = this.state;
         switch (name) {
             case 'start_date':
+                new_state.no_start_date = (value === '');
+                new_state.start_later_than_end = this.startDateAfterEndDate();
                 break;
             case 'end_date':
-                break;
-            case 'latitude':
-                break;
-            case 'longitude':
-                break;
-            case 'about':
+                new_state.no_end_date = (value === '');
+                new_state.start_later_than_end = this.startDateAfterEndDate();
                 break;
             default:
                 break;
         }
-        this.setState({
-            errors, [name]: value
-        });
+
+        if (document.getElementById("latitude-input").value !== '' &&
+            document.getElementById("longitude-input").value !== '') {
+            new_state.pos = {
+                lat: document.getElementById("latitude-input").value,
+                lng: document.getElementById("longitude-input").value
+            };
+            new_state.markerOnStart = true;
+        }
+
+
+        new_state[name] = value;
+
+        this.setState(new_state);
+    }
+
+    startDateAfterEndDate() {
+        return ((document.getElementById("start_date-input").value !== '') &&
+            (document.getElementById("end_date-input").value !== '') &&
+            (new Date(document.getElementById("start_date-input").value)
+                > new Date(document.getElementById("end_date-input").value)));
     }
 
     render() {
@@ -245,16 +306,14 @@ class Register extends Component {
                             <div className="col mt-1 mx-auto">
                                 <Collapsible
                                     trigger={
-
                                         <button className="btn btn-lg btn-primary btn-block btn-success">
-                                            Add your first post
+                                            Add your first post (optional)
                                         </button>
-
                                     }
                                     triggerWhenOpen={
 
                                         <button className="btn btn-lg btn-primary btn-block btn-warning">
-                                            Cancel registration with post
+                                            Cancel adding post within registration
                                         </button>
 
                                     }
@@ -276,6 +335,8 @@ class Register extends Component {
                                             name="start_date"
                                             onChange={this.onNewPostChange}
                                         />
+                                        {this.state.no_start_date > 0 &&
+                                        <span className='error'>No start date specified.</span>}
                                     </div>
 
                                     <div className="form-group">
@@ -287,6 +348,10 @@ class Register extends Component {
                                             name="end_date"
                                             onChange={this.onNewPostChange}
                                         />
+                                        {this.state.no_end_date > 0 &&
+                                        <span className='error'>No end date specified.</span>}
+                                        {this.state.start_later_than_end > 0 &&
+                                        <span className='error'>Start date can not be later than end date.</span>}
                                     </div>
 
                                     <div className="form-group">
@@ -308,10 +373,12 @@ class Register extends Component {
                                             readOnly
                                         />
                                     </div>
+                                    {this.state.no_destination > 0 &&
+                                    <span className='error'>You must choose destination first.</span>}
                                     <MapExample zoom={8}
-                                                center={{lat: "52.5095347703273", lng: "13.38958740234375"}}
+                                                center={this.state.pos}
                                                 mutable={true}
-                                                markerOnStart={false}
+                                                markerOnStart={this.state.markerOnStart}
                                                 useMyMarker={true}
                                                 posts={null}
                                                 other_posts={null}
@@ -321,7 +388,7 @@ class Register extends Component {
                                         <textarea
                                             rows="3"
                                             className="form-control"
-                                            name="about"
+                                            name="about_post"
                                             placeholder="Write few words about your travel plans"
                                             onChange={this.onNewPostChange}
                                         />

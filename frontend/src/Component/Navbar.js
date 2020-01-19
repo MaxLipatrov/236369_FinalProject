@@ -58,8 +58,9 @@ class Navbar extends Component {
                     current_user: decoded.identity.user_name,
                     user_image: response.data.image_file
                 });
+            }).catch(err => {
+                console.log(err)
             });
-
         }
 
     }

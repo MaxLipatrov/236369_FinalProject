@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import Alert from "reactstrap/es/Alert";
 import Collapsible from 'react-collapsible';
 import MapExample from './Map'
+import Form from "react-bootstrap/Form";
 
 export const createNewPost = (post, user_name) => {
     axios.defaults.withCredentials = true;
@@ -21,7 +22,9 @@ export const createNewPost = (post, user_name) => {
         })
         .then(response => {
             return response.data
-        })
+        }).catch(err => {
+            console.log(err)
+        });
 };
 
 const subscribeToPost = (post, user_name) => {
@@ -33,7 +36,9 @@ const subscribeToPost = (post, user_name) => {
         })
         .then(response => {
             return response.data
-        })
+        }).catch(err => {
+            console.log(err)
+        });
 };
 
 const deleteNotification = (note_id, user_name) => {
@@ -45,7 +50,9 @@ const deleteNotification = (note_id, user_name) => {
         })
         .then(response => {
             return response.data
-        })
+        }).catch(err => {
+            console.log(err)
+        });
 };
 
 
@@ -64,12 +71,15 @@ export class PostsFeed extends Component {
             start_date: '',
             end_date: '',
             about: '',
-
+            pos: {lat: "52.5095347703273", lng: "13.38958740234375"},
+            markerOnStart: false,
 
             invalid: 0,
-            errors: {
-                date_error: ''
-            },
+
+            no_start_date: 0,
+            no_end_date: 0,
+            start_later_than_end: 0,
+            no_destination: 0,
         };
         this.onNewPostChange = this.onNewPostChange.bind(this);
         this.onNewPostSubmit = this.onNewPostSubmit.bind(this);
@@ -123,55 +133,90 @@ export class PostsFeed extends Component {
     onNewPostSubmit(e) {
         e.preventDefault();
 
-        const post = {
-            start_date: this.state.start_date,
-            end_date: this.state.end_date,
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            about: this.state.about
-        };
+        let new_state = this.state;
 
-        if (this.validateNewPostForm(this.state.errors)) {
+        new_state.invalid = 0;
+
+        if (document.getElementById("start_date-input").value === '') {
+            new_state.invalid = 1;
+            new_state.no_start_date = 1;
+        }
+        if (document.getElementById("end_date-input").value === '') {
+            new_state.invalid = 1;
+            new_state.no_end_date = 1;
+        }
+
+        if (this.startDateAfterEndDate()) {
+            new_state.invalid = 1;
+            new_state.start_later_than_end = 1;
+        }
+
+        if (document.getElementById("latitude-input").value === '' ||
+            document.getElementById("longitude-input").value === '') {
+            new_state.invalid = 1;
+            new_state.no_destination = 1;
+        } else {
+            new_state.no_destination = 0;
+            new_state.pos = {
+                lat: document.getElementById("latitude-input").value,
+                lng: document.getElementById("longitude-input").value
+            };
+        }
+
+        this.setState(new_state);
+
+        if (this.state.invalid === 0) {
+            const post = {
+                start_date: this.state.start_date,
+                end_date: this.state.end_date,
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+                about: this.state.about
+            };
 
             createNewPost(post, this.state.current_user).then(r => {
                 window.location.reload();
             });
-        } else {
-            this.setState({invalid: 1});
         }
     }
 
     onNewPostChange(e) {
-        let errors = this.state.errors;
         const {name, value} = e.target;
 
-        console.log("name: " + name + " value: " + value);
-
+        let new_state = this.state;
         switch (name) {
             case 'start_date':
+                new_state.no_start_date = (value === '');
+                new_state.start_later_than_end = this.startDateAfterEndDate();
                 break;
             case 'end_date':
-                break;
-            case 'latitude':
-                break;
-            case 'longitude':
-                break;
-            case 'about':
+                new_state.no_end_date = (value === '');
+                new_state.start_later_than_end = this.startDateAfterEndDate();
                 break;
             default:
                 break;
         }
-        this.setState({
-            errors, [name]: value
-        });
+
+        if (document.getElementById("latitude-input").value !== '' &&
+            document.getElementById("longitude-input").value !== '') {
+            new_state.pos = {
+                lat: document.getElementById("latitude-input").value,
+                lng: document.getElementById("longitude-input").value
+            };
+            new_state.markerOnStart = true;
+        }
+
+
+        new_state[name] = value;
+
+        this.setState(new_state);
     }
 
-    validateNewPostForm(errors) {
-        let valid = true;
-        Object.values(errors).forEach(
-            (val) => val.length > 0 && (valid = false)
-        );
-        return valid;
+    startDateAfterEndDate() {
+        return ((document.getElementById("start_date-input").value !== '') &&
+            (document.getElementById("end_date-input").value !== '') &&
+            (new Date(document.getElementById("start_date-input").value)
+                > new Date(document.getElementById("end_date-input").value)));
     }
 
     newPostForm() {
@@ -186,6 +231,8 @@ export class PostsFeed extends Component {
                         name="start_date"
                         onChange={this.onNewPostChange}
                     />
+                    {this.state.no_start_date > 0 &&
+                    <span className='error'>No start date specified.</span>}
                 </div>
 
                 <div className="form-group">
@@ -197,6 +244,10 @@ export class PostsFeed extends Component {
                         name="end_date"
                         onChange={this.onNewPostChange}
                     />
+                    {this.state.no_end_date > 0 &&
+                    <span className='error'>No end date specified.</span>}
+                    {this.state.start_later_than_end > 0 &&
+                    <span className='error'>Start date can not be later than end date.</span>}
                 </div>
 
                 <div className="form-group">
@@ -218,10 +269,12 @@ export class PostsFeed extends Component {
                         readOnly
                     />
                 </div>
+                {this.state.no_destination > 0 &&
+                <span className='error'>You must choose destination first.</span>}
                 <MapExample zoom={8}
-                            center={{lat: "52.5095347703273", lng: "13.38958740234375"}}
+                            center={this.state.pos}
                             mutable={true}
-                            markerOnStart={false}
+                            markerOnStart={this.state.markerOnStart}
                             useMyMarker={true}
                             posts={null}
                             other_posts={null}
@@ -237,21 +290,27 @@ export class PostsFeed extends Component {
                     />
                 </div>
                 <button type="submit" className="btn btn-lg btn-primary btn-block">
-                    {"Create!"}
+                    {"Create"}
                 </button>
             </form>
         );
     }
 
-    newPost() {
+    renderNewPost() {
         return (
             <div className="col-md-24 mx-auto">
                 <br/>
                 <tr>
-                    <td style={{border: '1px solid', width: '50%'}}>
-                        <Collapsible trigger="Click here to share your plans in a new post!"
-                                     triggerWhenOpen="Click here to collapse the form!">
-                            <br/>
+                    <td style={{width: '50%'}}>
+                        <Collapsible
+                            trigger={
+                                <button className="btn btn-lg btn-primary btn-block">
+                                    {"Share your plans in new post"}
+                                </button>}
+                            triggerWhenOpen={
+                                <button className="btn btn-lg btn-primary btn-block">
+                                    {"Click to collapse the form"}
+                                </button>}>
                             {this.newPostForm()}
                         </Collapsible>
                     </td>
@@ -383,7 +442,7 @@ export class PostsFeed extends Component {
 
     render() {
 
-        let new_post = this.newPost();
+        let new_post = this.renderNewPost();
         let posts = this.state.posts.map((post) => {
             return (this.state.current_user === post.user_name) ?
                 this.renderCurrentUserPost(post) : this.renderOtherUserPost(post);
@@ -397,15 +456,26 @@ export class PostsFeed extends Component {
             <div className="container" style={{width: "100%"}}>
                 <div className="row">
                     <div style={{width: "65%"}}>
-                        <table className="table col-md-6 mx-auto">
-                            <tbody>{new_post}{posts}</tbody>
+                        {new_post}
+                        <table className="table mx-auto">
+                            <tbody>{posts}</tbody>
                         </table>
                     </div>
                     <div style={{width: "35%"}}>
                         <br/>
-                        <table className="table col-md-6 mx-auto">Notifications
-                            <tbody>{notifications}</tbody>
-                        </table>
+                        <Collapsible
+                            trigger={
+                                <button className="btn btn-lg btn-primary btn-block">
+                                    {"Show notifications"}
+                                </button>}
+                            triggerWhenOpen={
+                                <button className="btn btn-lg btn-primary btn-block">
+                                    {"Collapse notifications"}
+                                </button>}>
+                            <table className="table mx-auto">
+                                <tbody>{notifications}</tbody>
+                            </table>
+                        </Collapsible>
                     </div>
                 </div>
 

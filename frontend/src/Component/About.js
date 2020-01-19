@@ -16,7 +16,9 @@ const update = updatedUser => {
         })
         .then(response => {
             return response.data
-        })
+        }).catch(err => {
+            console.log(err)
+        });
 };
 
 const deleteUser = (user_name) => {
@@ -25,6 +27,8 @@ const deleteUser = (user_name) => {
             return response.data;
         }).catch(err => {
             console.log(err);
+        }).catch(err => {
+            console.log(err)
         });
 };
 

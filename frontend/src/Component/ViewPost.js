@@ -18,7 +18,9 @@ const deletePost = (post_id, user_name) => {
         })
         .then(response => {
             return response.data
-        })
+        }).catch(err => {
+            console.log(err)
+        });
 };
 
 const updatePost = (post, user_name) => {
@@ -35,7 +37,9 @@ const updatePost = (post, user_name) => {
         })
         .then(response => {
             return response.data
-        })
+        }).catch(err => {
+            console.log(err)
+        });
 };
 
 
