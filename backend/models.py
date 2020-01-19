@@ -9,7 +9,7 @@ class Follow(db.Model):
     __tablename__ = 'follows'
     follower_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), primary_key=True, nullable=False)
     followed_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), primary_key=True, nullable=False)
-    start_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         return f"Follow('{self.follower_name},{self.followed_name},{self.start_date}')"
@@ -23,7 +23,7 @@ class Post(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    post_date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
+    post_date = db.Column(db.DateTime, nullable=False)
     about = db.Column(db.Text)
 
     def __repr__(self):
@@ -35,7 +35,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(64), db.ForeignKey('users.user_name', ondelete='CASCADE'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
-    date = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.Text)
 
     def __repr__(self):

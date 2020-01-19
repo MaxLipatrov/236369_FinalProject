@@ -8,7 +8,6 @@ import Form from "react-bootstrap/Form";
 import {isPointWithinRadius} from 'geolib'
 
 
-
 export class SearchTravels extends Component {
     constructor(props) {
         super(props);
@@ -70,6 +69,13 @@ export class SearchTravels extends Component {
             default:
                 break;
         }
+
+        if (document.getElementById("latitude-input").value !== '' &&
+            document.getElementById("longitude-input").value !== '') {
+            new_state.no_destination = 0;
+        }
+
+
         this.setState(new_state);
     }
 
@@ -109,6 +115,8 @@ export class SearchTravels extends Component {
             document.getElementById("longitude-input").value === '') {
             new_state.invalid = 1;
             new_state.no_destination = 1;
+        } else {
+            new_state.no_destination = 0;
         }
 
         this.setState(new_state);
@@ -203,8 +211,8 @@ export class SearchTravels extends Component {
                                                 {"Search"}
                                             </button>
                                         </div>
-                                            {this.state.no_destination > 0 &&
-                                            <span className='error'>You must choose destination first.</span>}
+                                        {this.state.no_destination > 0 &&
+                                        <span className='error'>You must choose destination first.</span>}
                                     </Form>
                                 </div>
                                 <MapExample zoom={5}

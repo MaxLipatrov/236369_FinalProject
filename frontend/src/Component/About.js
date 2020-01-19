@@ -132,7 +132,7 @@ function EditProfile(props) {
 
 export class About extends Component {
     constructor(props) {
-        console.log("about props:" + props);
+        // console.log("about props:" + props);
         super(props);
         this.state = {
             current_user: 0,
@@ -253,7 +253,7 @@ export class About extends Component {
         axios
             .put("http://127.0.0.1:5000/image/" + this.state.username, formData)
             .then(res => {
-                    console.log(res.data.image_file);
+                    // console.log(res.data.image_file);
                     this.props.updatePic({image_file: res.data.image_file});
                 }
             )

@@ -7,7 +7,7 @@ import {PostsFeed} from "./PostsFeed";
 class Landing extends Component {
     constructor(props) {
         super(props);
-        console.log("props: " + props);
+        // console.log("props: " + props);
     }
 
     state = {

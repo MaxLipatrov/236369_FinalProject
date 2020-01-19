@@ -266,6 +266,7 @@ def add_post():
                 longitude=data["longitude"],
                 start_date=data['start_date'],
                 end_date=data['end_date'],
+                post_date=datetime.datetime.utcnow(),
                 about=data['about'])
 
     db.session.add(post)

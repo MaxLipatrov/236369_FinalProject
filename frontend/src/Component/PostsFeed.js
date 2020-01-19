@@ -116,7 +116,7 @@ export class PostsFeed extends Component {
 
         axios.defaults.withCredentials = true;
         axios.get('http://127.0.0.1:5000/notifications/' + this.state.current_user).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             this.setState({
                 notifications: response.data,
             })

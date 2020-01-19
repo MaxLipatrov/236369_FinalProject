@@ -24,6 +24,9 @@ export const register = newUser => {
 const validEmailRegex =
     RegExp(/^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
 
+const validUserNameRegex =
+    RegExp(/^[a-zA-Z0-9]+$/);
+
 const validateForm = (errors) => {
     let valid = true;
     Object.values(errors).forEach(
@@ -85,8 +88,8 @@ class Register extends Component {
             case 'username':
                 this.setState({user_taken: 0});
                 errors.username =
-                    value.length < 1 || value.length > 20
-                        ? 'Username is not valid!'
+                    value.length < 1 || value.length > 20 || !(validUserNameRegex.test(value))
+                        ? 'Username is not valid! It must consist of 1-20 alphanumeric characters only.'
                         : '';
                 break;
             case 'email':
@@ -172,7 +175,7 @@ class Register extends Component {
                             end_date: this.state.end_date,
                             latitude: document.getElementById("latitude-input").value,
                             longitude: document.getElementById("longitude-input").value,
-                            about: this.state.about
+                            about: this.state.about_post
                         };
                         createNewPost(newPost, this.state.username).then(res => {
                             /* Add check return value! */

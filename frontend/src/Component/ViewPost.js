@@ -63,8 +63,6 @@ export class ViewPost extends Component {
         let errors = this.state.errors;
         const {name, value} = e.target;
 
-        console.log("name: " + name + " value: " + value);
-
         switch (name) {
             case 'start_date':
                 break;
