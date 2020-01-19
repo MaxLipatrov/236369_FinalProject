@@ -58,12 +58,12 @@ export class Users extends Component {
     render() {
         let users = this.state.users.map((user) => {
             return (
-                <div className="col-md-24 mx-auto">
+                <div className="col-md-24 mx-auto" >
                     <tr>
-                        <td>
-                            <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
-                        </td>
-                        <td><img className="rounded-circle account-img"
+                        {/*<td>*/}
+                        {/*    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>*/}
+                        {/*</td>*/}
+                        <td><img class ="text-center" className="rounded-circle account-img"
                                  src={"http://127.0.0.1:5000" + user.image_file}
                                  height="60" width="60"
                         /> <a href={"/users/" + user.user_name}>{'     ' + user.user_name}</a></td>
@@ -76,7 +76,7 @@ export class Users extends Component {
         return (
             <div>
                 {this.props.type === 1 ?
-                    <div class="text-center">Followers:</div> : <div className="text-center">Following:</div>}
+                    <div class ="text-center">Followers:</div> : <div class ="text-center">Following:</div>}
 
                 <table className="table col-md-6 mx-auto">
                     <tbody>{users}</tbody>
